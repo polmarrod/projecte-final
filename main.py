@@ -1,14 +1,51 @@
+def jumpAnimation():
+    animation.run_image_animation(mario,
+        [img("""
+                . . . . . . . . . . b 5 b . . . 
+                        . . . . . . . . . b 5 b . . . . 
+                        . . . . . . b b b b b b . . . . 
+                        . . . . . b b 5 5 5 5 5 b . . . 
+                        . . . . b b 5 d 1 f 5 d 4 c . . 
+                        . . . . b 5 5 1 f f d d 4 4 4 b 
+                        . . . . b 5 5 d f b 4 4 4 4 b . 
+                        . . . b d 5 5 5 5 4 4 4 4 b . . 
+                        . . b d d 5 5 5 5 5 5 5 5 b . . 
+                        . b d d d d 5 5 5 5 5 5 5 5 b . 
+                        b d d d b b b 5 5 5 5 5 5 5 b . 
+                        c d d b 5 5 d c 5 5 5 5 5 5 b . 
+                        c b b d 5 d c d 5 5 5 5 5 5 b . 
+                        . b 5 5 b c d d 5 5 5 5 5 d b . 
+                        b b c c c d d d d 5 5 5 b b . . 
+                        . . . c c c c c c c c b b . . .
+            """),
+            img("""
+                . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . b 5 5 b . . . 
+                        . . . . . . b b b b b b . . . . 
+                        . . . . . b b 5 5 5 5 5 b . . . 
+                        . b b b b b 5 5 5 5 5 5 5 b . . 
+                        . b d 5 b 5 5 5 5 5 5 5 5 b . . 
+                        . . b 5 5 b 5 d 1 f 5 d 4 f . . 
+                        . . b d 5 5 b 1 f f 5 4 4 c . . 
+                        b b d b 5 5 5 d f b 4 4 4 4 b . 
+                        b d d c d 5 5 b 5 4 4 4 4 4 4 b 
+                        c d d d c c b 5 5 5 5 5 5 5 b . 
+                        c b d d d d d 5 5 5 5 5 5 5 b . 
+                        . c d d d d d d 5 5 5 5 5 d b . 
+                        . . c b d d d d d 5 5 5 b b . . 
+                        . . . c c c c c c c c b b . . .
+            """)],
+        500,
+        False)
+def jump():
+    mario.vy = -100
+    jumpAnimation()
 def createPlayer(player2: Sprite):
     scene.camera_follow_sprite(player2)
+    tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
     controller.move_sprite(player2, 100, 0)
-    tiles.set_current_tilemap(tilemap("""
-        level1
-    """))
-    info.set_score(0)
-    info.set_life(3)
-    tiles.place_on_tile(player2, tiles.get_tile_location(2, 3))
 mario: Sprite = None
-mySprite = None
 scene.set_background_image(img("""
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
         9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -131,23 +168,36 @@ scene.set_background_image(img("""
         9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
         9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
 """))
+tiles.set_current_tilemap(tilemap("""
+    level1
+"""))
 mario = sprites.create(img("""
-        . . . . . . . . . . . . . . . . 
-            . . . . . f f f f f f . . . . . 
-            . . . f f e e e e f 2 f . . . . 
-            . . f f e e e e f 2 2 2 f . . . 
-            . . f e e e f f e e e e f . . . 
-            . . f f f f e e 2 2 2 2 e f . . 
-            . . f e 2 2 2 f f f f e 2 f . . 
-            . f f f f f f f e e e f f f . . 
-            . f f e 4 4 e b f 4 4 e e f . . 
-            . f e e 4 d 4 1 f d d e f . . . 
-            . . f e e e e e d d d f . . . . 
-            . . . . f 4 d d e 4 e f . . . . 
-            . . . . f e d d e 2 2 f . . . . 
-            . . . f f f e e f 5 5 f f . . . 
-            . . . f f f f f f f f f f . . . 
-            . . . . f f . . . f f f . . . .
+        . . . . . . . . . . b 5 b . . . 
+            . . . . . . . . . b 5 b . . . . 
+            . . . . . . . . . b c . . . . . 
+            . . . . . . b b b b b b . . . . 
+            . . . . . b b 5 5 5 5 5 b . . . 
+            . . . . b b 5 d 1 f 5 5 d f . . 
+            . . . . b 5 5 1 f f 5 d 4 c . . 
+            . . . . b 5 5 d f b d d 4 4 . . 
+            b d d d b b d 5 5 5 4 4 4 4 4 b 
+            b b d 5 5 5 b 5 5 4 4 4 4 4 b . 
+            b d c 5 5 5 5 d 5 5 5 5 5 b . . 
+            c d d c d 5 5 b 5 5 5 5 5 5 b . 
+            c b d d c c b 5 5 5 5 5 5 5 b . 
+            . c d d d d d d 5 5 5 5 5 d b . 
+            . . c b d d d d d 5 5 5 b b . . 
+            . . . c c c c c c c c b b . . .
     """),
     SpriteKind.player)
 createPlayer(mario)
+info.set_score(0)
+info.set_life(3)
+
+def on_forever():
+    if controller.A.is_pressed():
+        if mario.is_hitting_tile(CollisionDirection.BOTTOM):
+            jump()
+    else:
+        mario.vy = 70
+forever(on_forever)
