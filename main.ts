@@ -45,6 +45,16 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         jump()
     }
 })
+function deathMario () {
+    info.stopCountdown()
+    info.changeLifeBy(-1)
+    info.setScore(0)
+    info.changeCountdownBy(400 - info.countdown())
+    tiles.setCurrentTilemap(tilemap`level1`)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    spawnEnemies()
+    tiles.placeOnTile(mario, tiles.getTileLocation(0, 13))
+}
 function walkAnimation () {
     if (mario.vx > 0) {
         animation.runImageAnimation(
@@ -198,6 +208,75 @@ function walkAnimation () {
         )
     }
 }
+function spawnEnemies () {
+    for (let value of tiles.getTilesByType(sprites.castle.rock0)) {
+        shroom = sprites.create(img`
+            . . . . . . b b b b . . . . . . 
+            . . . . b b 3 3 3 3 b b . . . . 
+            . . . c b 3 3 3 3 1 1 b c . . . 
+            . . c b 3 3 3 3 3 1 1 1 b c . . 
+            . c c 1 1 1 3 3 3 3 1 1 3 c c . 
+            c c d 1 1 1 3 3 3 3 3 3 3 b c c 
+            c b d d 1 3 3 3 3 3 1 1 1 b b c 
+            c b b b 3 3 1 1 3 3 1 1 d d b c 
+            c b b b b d d 1 1 3 b d d d b c 
+            . c b b b b d d b b b b b b c . 
+            . . c c b b b b b b b b c c . . 
+            . . . . c c c c c c c c . . . . 
+            . . . . . . b 1 1 b . . . . . . 
+            . . . . . . b 1 1 b b . . . . . 
+            . . . . . b b d 1 1 b . . . . . 
+            . . . . . b d d 1 1 b . . . . . 
+            `, SpriteKind.Enemy)
+        tiles.placeOnTile(shroom, value)
+        tiles.setTileAt(value, assets.tile`transparency16`)
+        shroom.vx = -20
+        animation.runImageAnimation(
+        shroom,
+        [img`
+            . . . . . . b b b b . . . . . . 
+            . . . . b b 3 3 3 3 b b . . . . 
+            . . . c b 3 3 3 3 1 1 b c . . . 
+            . . c b 3 3 3 3 3 1 1 1 b c . . 
+            . c c 1 1 1 3 3 3 3 1 1 3 c c . 
+            c c d 1 1 1 3 3 3 3 3 3 3 b c c 
+            c b d d 1 3 3 3 3 3 1 1 1 b b c 
+            c b b b 3 3 1 1 3 3 1 1 d d b c 
+            c b b b b d d 1 1 3 b d d d b c 
+            . c b b b b d d b b b b b b c . 
+            . . c c b b b b b b b b c c . . 
+            . . . . c c c c c c c c . . . . 
+            . . . . . . b 1 1 b . . . . . . 
+            . . . . . . b 1 1 b b . . . . . 
+            . . . . . b b d 1 1 b . . . . . 
+            . . . . . b d d 1 1 b . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . b b b b . . . . . . 
+            . . . . b b 3 3 3 3 b b . . . . 
+            . . . c b 3 3 3 3 1 1 b c . . . 
+            . . c b 3 3 3 3 3 1 1 1 b c . . 
+            . c b 1 1 1 3 3 3 3 1 1 3 c c . 
+            c b d 1 1 1 3 3 3 3 3 3 3 b b c 
+            c b b d 1 3 3 3 3 3 1 1 1 b b c 
+            c b b b 3 3 1 1 3 3 1 1 d d b c 
+            . c b b b d d 1 1 3 b d d d c . 
+            . . c c b b d d b b b b c c . . 
+            . . . . c c c c c c c c . . . . 
+            . . . . . b b d 1 1 b . . . . . 
+            . . . . . b d d 1 1 b . . . . . 
+            `],
+        500,
+        true
+        )
+        shroom.setBounceOnWall(true)
+    }
+}
+info.onLifeZero(function () {
+    game.gameOver(false)
+})
 function jump () {
     jumpAnimation()
     mario.vy = -160
@@ -207,7 +286,17 @@ function createPlayer (player2: Sprite) {
     tiles.placeOnTile(player2, tiles.getTileLocation(0, 13))
     controller.moveSprite(player2, 100, 0)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (sprite.y < otherSprite.top) {
+        sprites.destroy(otherSprite)
+        info.changeScoreBy(100)
+    } else {
+        deathMario()
+    }
+})
+let shroom: Sprite = null
 let mario: Sprite = null
+info.startCountdown(400)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -353,6 +442,7 @@ createPlayer(mario)
 mario.ay = 350
 info.setLife(3)
 info.setScore(0)
+spawnEnemies()
 game.onUpdate(function () {
     if (mario.vy == 0) {
         walkAnimation()

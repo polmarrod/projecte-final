@@ -44,6 +44,17 @@ def on_a_pressed():
         jump()
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
+def deathMario():
+    info.stop_countdown()
+    info.change_life_by(-1)
+    info.set_score(0)
+    info.change_countdown_by(400 - info.countdown())
+    tiles.set_current_tilemap(tilemap("""
+        level1
+    """))
+    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+    spawnEnemies()
+    tiles.place_on_tile(mario, tiles.get_tile_location(0, 13))
 def walkAnimation():
     if mario.vx > 0:
         animation.run_image_animation(mario,
@@ -197,6 +208,78 @@ def walkAnimation():
                 """)],
             100,
             False)
+def spawnEnemies():
+    global shroom
+    for value in tiles.get_tiles_by_type(sprites.castle.rock0):
+        shroom = sprites.create(img("""
+                . . . . . . b b b b . . . . . . 
+                            . . . . b b 3 3 3 3 b b . . . . 
+                            . . . c b 3 3 3 3 1 1 b c . . . 
+                            . . c b 3 3 3 3 3 1 1 1 b c . . 
+                            . c c 1 1 1 3 3 3 3 1 1 3 c c . 
+                            c c d 1 1 1 3 3 3 3 3 3 3 b c c 
+                            c b d d 1 3 3 3 3 3 1 1 1 b b c 
+                            c b b b 3 3 1 1 3 3 1 1 d d b c 
+                            c b b b b d d 1 1 3 b d d d b c 
+                            . c b b b b d d b b b b b b c . 
+                            . . c c b b b b b b b b c c . . 
+                            . . . . c c c c c c c c . . . . 
+                            . . . . . . b 1 1 b . . . . . . 
+                            . . . . . . b 1 1 b b . . . . . 
+                            . . . . . b b d 1 1 b . . . . . 
+                            . . . . . b d d 1 1 b . . . . .
+            """),
+            SpriteKind.enemy)
+        tiles.place_on_tile(shroom, value)
+        tiles.set_tile_at(value, assets.tile("""
+            transparency16
+        """))
+        shroom.vx = -20
+        animation.run_image_animation(shroom,
+            [img("""
+                    . . . . . . b b b b . . . . . . 
+                                . . . . b b 3 3 3 3 b b . . . . 
+                                . . . c b 3 3 3 3 1 1 b c . . . 
+                                . . c b 3 3 3 3 3 1 1 1 b c . . 
+                                . c c 1 1 1 3 3 3 3 1 1 3 c c . 
+                                c c d 1 1 1 3 3 3 3 3 3 3 b c c 
+                                c b d d 1 3 3 3 3 3 1 1 1 b b c 
+                                c b b b 3 3 1 1 3 3 1 1 d d b c 
+                                c b b b b d d 1 1 3 b d d d b c 
+                                . c b b b b d d b b b b b b c . 
+                                . . c c b b b b b b b b c c . . 
+                                . . . . c c c c c c c c . . . . 
+                                . . . . . . b 1 1 b . . . . . . 
+                                . . . . . . b 1 1 b b . . . . . 
+                                . . . . . b b d 1 1 b . . . . . 
+                                . . . . . b d d 1 1 b . . . . .
+                """),
+                img("""
+                    . . . . . . . . . . . . . . . . 
+                                . . . . . . . . . . . . . . . . 
+                                . . . . . . . . . . . . . . . . 
+                                . . . . . . b b b b . . . . . . 
+                                . . . . b b 3 3 3 3 b b . . . . 
+                                . . . c b 3 3 3 3 1 1 b c . . . 
+                                . . c b 3 3 3 3 3 1 1 1 b c . . 
+                                . c b 1 1 1 3 3 3 3 1 1 3 c c . 
+                                c b d 1 1 1 3 3 3 3 3 3 3 b b c 
+                                c b b d 1 3 3 3 3 3 1 1 1 b b c 
+                                c b b b 3 3 1 1 3 3 1 1 d d b c 
+                                . c b b b d d 1 1 3 b d d d c . 
+                                . . c c b b d d b b b b c c . . 
+                                . . . . c c c c c c c c . . . . 
+                                . . . . . b b d 1 1 b . . . . . 
+                                . . . . . b d d 1 1 b . . . . .
+                """)],
+            500,
+            True)
+        shroom.set_bounce_on_wall(True)
+
+def on_life_zero():
+    game.game_over(False)
+info.on_life_zero(on_life_zero)
+
 def jump():
     jumpAnimation()
     mario.vy = -160
@@ -204,7 +287,18 @@ def createPlayer(player2: Sprite):
     scene.camera_follow_sprite(player2)
     tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
     controller.move_sprite(player2, 100, 0)
+
+def on_on_overlap(sprite, otherSprite):
+    if sprite.y < otherSprite.top:
+        sprites.destroy(otherSprite)
+        info.change_score_by(100)
+    else:
+        deathMario()
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap)
+
+shroom: Sprite = None
 mario: Sprite = None
+info.start_countdown(400)
 scene.set_background_image(img("""
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
         9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -353,7 +447,9 @@ createPlayer(mario)
 mario.ay = 350
 info.set_life(3)
 info.set_score(0)
+spawnEnemies()
 
 def on_on_update():
-    walkAnimation()
+    if mario.vy == 0:
+        walkAnimation()
 game.on_update(on_on_update)
