@@ -38,9 +38,15 @@ def jumpAnimation():
             """)],
         500,
         False)
+
+def on_a_pressed():
+    if mario.vy == 0:
+        jump()
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
 def jump():
-    mario.vy = -100
     jumpAnimation()
+    mario.vy = -150
 def createPlayer(player2: Sprite):
     scene.camera_follow_sprite(player2)
     tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
@@ -191,13 +197,6 @@ mario = sprites.create(img("""
     """),
     SpriteKind.player)
 createPlayer(mario)
-info.set_score(0)
+mario.ay = 350
 info.set_life(3)
-
-def on_forever():
-    if controller.A.is_pressed():
-        if mario.is_hitting_tile(CollisionDirection.BOTTOM):
-            jump()
-    else:
-        mario.vy = 70
-forever(on_forever)
+info.set_score(0)

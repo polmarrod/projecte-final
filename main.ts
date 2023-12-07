@@ -40,9 +40,14 @@ function jumpAnimation () {
     false
     )
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (mario.vy == 0) {
+        jump()
+    }
+})
 function jump () {
-    mario.vy = -100
     jumpAnimation()
+    mario.vy = -150
 }
 function createPlayer (player2: Sprite) {
     scene.cameraFollowSprite(player2)
@@ -192,14 +197,6 @@ mario = sprites.create(img`
     . . . c c c c c c c c b b . . . 
     `, SpriteKind.Player)
 createPlayer(mario)
-info.setScore(0)
+mario.ay = 350
 info.setLife(3)
-forever(function () {
-    if (controller.A.isPressed()) {
-        if (mario.isHittingTile(CollisionDirection.Bottom)) {
-            jump()
-        }
-    } else {
-        mario.vy = 70
-    }
-})
+info.setScore(0)
