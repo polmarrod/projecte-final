@@ -39,40 +39,10 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "shell_sprite"
     },
-    "image10": {
-        "data": "hwQQABAAAAAAAAAA3QAAAAAADQDd7u4AINDtAO3u7gAg0O0N7iAiACDd7g0uIiIAIu7t7S4iIgAi3d3tIiIiACLd3S3SIgIAIt3dLSIiAgAi3d3tIiIiACLe7e0iIiLgIO7u4CIiIu4A4O7g0iLi7gAAAODdDeLuAAAAAN0N4A4AAAAA3Q0AAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "mario_walk_left_1"
-    },
-    "image12": {
-        "data": "hwQQABAAAAAAANAAAAAAAAAC3Q4ADQAAAALd3t0NAAAA0u3e3S0CACDi3t7uLiLgINLd3eIuIu4g0t3d7i4i7iDS3d3uLiLuINLd3e4uIu4g4t3e7iIiAADi7g7e7SIAAADuDtDt7gAAAAAAAO3uDgAAAAAAAOAOAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "mario_walk_left_2"
-    },
-    "image11": {
-        "data": "hwQQABAAAAAAAAAA3Q0AAAAAAADdDeAOAAAA4N0N4u4A4O7g0iLi7iDu7uAiIiLuIt7t7SIiIuAi3d3tIiIiACLd3S0iIgIAIt3dLdIiAgAi3d3tIiIiACLu7e0uIiIAIN3uDS4iIgAg0O0N7iAiACDQ7QDt7u4AAAANAN3u7gAAAAAA3QAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "mario_walk_right_1"
-    },
-    "image13": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4A4AAAAAAO3uDgAA7g7Q7e4AAOLuDt7tIgAg4t3e7iIiACDS3d3uLiLuINLd3e4uIu4g0t3d7i4i7iDS3d3iLiLuIOLe3u4uIuAA0u3e3S0CAAAC3d7dDQAAAALdDgANAAAAANAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "mario_walk_right_2"
-    },
     "image9": {
         "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAODdDeAA4A4A7t0N7iDu7uDu3S3uIt7t7e7eIu4i3d3t7iIi7iLd3S0iLSIAIt3d7S4iAgAi3d3tLiIiACLu7e0iLSLuIN3uDe4iIu4g0O0N7t4i7iDQ7QDu3Q3uAAANAODdDeAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "mario_right"
-    },
-    "image14": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAADQDg3Q3gINDtAO7dDe4g0O0N7t4i7iDd7g3uIiLuIu7t7SItIu4i3d3tLiIiACLd3e0uIgIAIt3dLSItIgAi3d3t7iIi7iLe7e3u3iLuIO7u4O7dLe4A4A4A7t0N7gAAAADg3Q3gAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "mario_left"
-    },
-    "image15": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAA0AAAAAAAAALdDgAAAAAAAt3eAC0C4ADS3d7gLSLuINLt3u4iIu4g4t7e7iIi7iDS3d0uLS3uINLd3S4i3eIg4u3d4uLd4iDi7t3u7u7iAOLdDu7uLgAAAO4O4O4CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "mario_walk_left_0"
+        "displayName": "mario_sprite0"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",

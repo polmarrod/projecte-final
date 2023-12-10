@@ -63,13 +63,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         jump()
     }
 })
-scene.onHitWall(SpriteKind.Shroom, function (sprite5, location) {
-    if (sprite5.isHittingTile(CollisionDirection.Right)) {
-        sprite5.vx = -50
-    } else if (sprite5.isHittingTile(CollisionDirection.Left)) {
-        sprite5.vx = 50
-    }
-})
 function deathMario () {
     info.stopCountdown()
     info.changeLifeBy(-1)
@@ -82,20 +75,6 @@ function deathMario () {
     tiles.placeOnTile(mario, tiles.getTileLocation(0, 13))
     spawnEnemies()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite2, otherSprite22) {
-    if (sprite2.y < otherSprite22.top) {
-        otherSprite22.vx = 0
-        animation.stopAnimation(animation.AnimationTypes.All, otherSprite22)
-        jump()
-        sprites.destroy(otherSprite22)
-        info.changeScoreBy(100)
-        shell = sprites.create(assets.image`shell_sprite`, SpriteKind.Shell)
-        tiles.placeOnTile(shell, otherSprite22.tilemapLocation())
-        shell.ay = 350
-    } else {
-        deathMario()
-    }
-})
 function walkAnimation () {
     if (mario.vx > 0) {
         animation.runImageAnimation(
@@ -249,6 +228,20 @@ function walkAnimation () {
         )
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite, otherSprite22) {
+    if (sprite.y < otherSprite22.top) {
+        otherSprite22.vx = 0
+        animation.stopAnimation(animation.AnimationTypes.All, otherSprite22)
+        jump()
+        sprites.destroy(otherSprite22)
+        info.changeScoreBy(100)
+        shell = sprites.create(assets.image`shell_sprite`, SpriteKind.Shell)
+        tiles.placeOnTile(shell, otherSprite22.tilemapLocation())
+        shell.ay = 350
+    } else {
+        deathMario()
+    }
+})
 function spawnEnemies () {
     for (let value of tiles.getTilesByType(assets.tile`myTile2`)) {
         if (mario.tilemapLocation().column + scene.screenWidth() > value.column) {
@@ -316,29 +309,36 @@ function jump () {
     jumpAnimation()
     mario.vy = -220
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Shell, function (sprite, otherSprite3) {
+    otherSprite3.vx = sprite.vx * 2
+    otherSprite3.setBounceOnWall(true)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+})
+scene.onHitWall(SpriteKind.Shroom, function (sprite, location) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.vx = -50
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
+        sprite.vx = 50
+    }
+})
 function createPlayer (player2: Sprite) {
     scene.cameraFollowSprite(player2)
     tiles.placeOnTile(player2, tiles.getTileLocation(0, 13))
     controller.moveSprite(player2, 100, 0)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Shell, function (sprite3, otherSprite3) {
-    otherSprite3.vx = sprite3.vx * 2
-    otherSprite3.setBounceOnWall(true)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite4, otherSprite) {
-    sprites.destroy(otherSprite)
-})
 let boost: Sprite = null
 let turtle: Sprite = null
 let shroom: Sprite = null
 let shell: Sprite = null
 let mario: Sprite = null
 scene.onHitWall(SpriteKind.Player, on_hit_wall)
-function on_hit_wall(sprite6: Sprite, location2: tiles.Location) {
-    if (sprite6.isHittingTile(CollisionDirection.Right)) {
-        sprite6.vx = -50
-    } else if (sprite6.isHittingTile(CollisionDirection.Left)) {
-        sprite6.vx = 50
+function on_hit_wall(sprite: Sprite, location2: tiles.Location) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.vx = -50
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
+        sprite.vx = 50
     }
     
 }
