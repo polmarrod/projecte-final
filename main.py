@@ -1,13 +1,3 @@
-def questions():
-    global question
-    for value in tiles.get_tiles_by_type(assets.tile("""
-        myTile0
-    """)):
-        tiles.set_wall_at(value, False)
-        question = sprites.create(assets.image("""
-            myImage
-        """), SpriteKind.food)
-        tiles.place_on_tile(question, value)
 def jumpAnimation():
     animation.stop_animation(animation.AnimationTypes.ALL, mario)
     if mario.vx > 0:
@@ -220,14 +210,14 @@ def walkAnimation():
             False)
 def spawnEnemies():
     global shroom
-    for value22 in tiles.get_tiles_by_type(assets.tile("""
+    for value in tiles.get_tiles_by_type(assets.tile("""
         myTile2
     """)):
         shroom = sprites.create(assets.image("""
             shroom_sprite0
         """), SpriteKind.enemy)
-        tiles.place_on_tile(shroom, value22)
-        tiles.set_tile_at(value22, assets.tile("""
+        tiles.place_on_tile(shroom, value)
+        tiles.set_tile_at(value, assets.tile("""
             transparency16
         """))
         shroom.vx = -20
@@ -272,14 +262,6 @@ def spawnEnemies():
             True)
         shroom.set_bounce_on_wall(True)
 
-def on_on_overlap(sprite222, otherSprite2):
-    if sprite222.y < otherSprite2.top:
-        sprites.destroy(otherSprite2)
-        info.change_score_by(100)
-    else:
-        deathMario()
-sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap)
-
 def on_life_zero():
     game.game_over(False)
 info.on_life_zero(on_life_zero)
@@ -287,60 +269,20 @@ info.on_life_zero(on_life_zero)
 def jump():
     jumpAnimation()
     mario.vy = -190
-
-def on_on_overlap2(sprite3, otherSprite):
-    if sprite3.y > otherSprite.bottom:
-        info.change_score_by(100)
-        animation.run_image_animation(otherSprite,
-            [img("""
-                    . . . . . . . . . . . . . . . . 
-                                . 4 4 4 4 4 4 4 4 4 4 4 4 4 4 . 
-                                4 d d d d d d d d d d d d d d f 
-                                4 d f d d d d d d d d d d f d f 
-                                4 d d d d 4 4 4 4 4 d d d d d f 
-                                4 d d d 4 4 f f f 4 4 d d d d f 
-                                4 d d d 4 4 f d d 4 4 f d d d f 
-                                4 d d d 4 4 f d d 4 4 f d d d f 
-                                4 d d d d f f d 4 4 4 f d d d f 
-                                4 d d d d d d 4 4 f f f d d d f 
-                                4 d d d d d d 4 4 f d d d d d f 
-                                4 d d d d d d d f f d d d d d f 
-                                4 d d d d d d 4 4 d d d d d d f 
-                                4 d d d d d d 4 4 f d d d d d f 
-                                4 d f d d d d d f f d d d f d f 
-                                4 d d d d d d d d d d d d d d f 
-                                f f f f f f f f f f f f f f f f
-                """),
-                img("""
-                    . 4 4 4 4 4 4 4 4 4 4 4 4 4 4 . 
-                                4 d d d d d d d d d d d d d d f 
-                                4 d f d d d d d d d d d d f d f 
-                                4 d d d d 4 4 4 4 4 d d d d d f 
-                                4 d d d 4 4 f f f 4 4 d d d d f 
-                                4 d d d 4 4 f d d 4 4 f d d d f 
-                                4 d d d 4 4 f d d 4 4 f d d d f 
-                                4 d d d d f f d 4 4 4 f d d d f 
-                                4 d d d d d d 4 4 f f f d d d f 
-                                4 d d d d d d 4 4 f d d d d d f 
-                                4 d d d d d d d f f d d d d d f 
-                                4 d d d d d d 4 4 d d d d d d f 
-                                4 d d d d d d 4 4 f d d d d d f 
-                                4 d f d d d d d f f d d d f d f 
-                                4 d d d d d d d d d d d d d d f 
-                                f f f f f f f f f f f f f f f f 
-                                . . . . . . . . . . . . . . . .
-                """)],
-            500,
-            False)
-        tiles.set_wall_at(otherSprite.tilemap_location(), True)
-sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap2)
-
 def createPlayer(player2: Sprite):
     scene.camera_follow_sprite(player2)
     tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
     controller.move_sprite(player2, 100, 0)
+
+def on_on_overlap(sprite, otherSprite):
+    if sprite.y < otherSprite.top:
+        sprites.destroy(otherSprite)
+        info.change_score_by(100)
+    else:
+        deathMario()
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap)
+
 shroom: Sprite = None
-question: Sprite = None
 mario: Sprite = None
 info.start_countdown(400)
 scene.set_background_image(img("""
@@ -496,12 +438,12 @@ spawnEnemies()
 def on_on_update():
     if mario.vy == 0:
         walkAnimation()
-        for value2 in tiles.get_tiles_by_type(assets.tile("""
+        for value in tiles.get_tiles_by_type(assets.tile("""
             prize_block
         """)):
-            if mario.tilemap_location().column == value2.column and mario.tilemap_location().row == value2.row + 1:
+            if mario.tilemap_location().column == value.column and mario.tilemap_location().row == value.row + 1:
                 info.change_score_by(10)
-                tiles.set_tile_at(value2, assets.tile("""
+                tiles.set_tile_at(value, assets.tile("""
                     myTile1
                 """))
 game.on_update(on_on_update)
