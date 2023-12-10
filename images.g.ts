@@ -178,8 +178,84 @@ e e e e e e e e e e e e e e e e
 . . . . . 1 1 1 1 1 1 . . . . . 
 . . . . . . 1 1 1 1 . . . . . . 
 `;
+            case "image10":
+            case "mario_walk_left_1":return img`
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . 2 2 2 2 2 2 2 2 2 2 . . . . 
+. . . . d e d d d d e e . . . . 
+. . d d d e d d d d d e e . . . 
+. d d d e d d d d d d e e . . . 
+. . e e e e d d d d e e e . . . 
+. . . d d d d d d d d . . . . . 
+. . . . . e e 2 2 e e e e e . . 
+d d d e e e 2 2 2 2 2 2 2 d d d 
+d d e e 2 2 2 d 2 2 2 2 d d d d 
+. e e . 2 2 2 2 2 2 2 2 2 d d d 
+. e e 2 2 2 2 2 2 2 2 2 2 . . . 
+. e e 2 2 2 2 2 2 2 2 2 2 2 . . 
+. e e 2 2 2 2 . . 2 2 2 e e e . 
+. . . . . . . . . . . e e e e . 
+. . . . . . . . . . e e e e . . 
+`;
+            case "image12":
+            case "mario_walk_left_2":return img`
+. . . . . . . . . . . . . . . . 
+. . . . 2 2 2 2 2 2 . . . . . . 
+. 2 2 2 2 2 2 2 2 2 2 . . . . . 
+. . . d e d d d d e e . . . . . 
+. d d d e d d d d d e e . . . . 
+d d d e d d d d d d e e . . . . 
+. e e e e d d d d e e e . . . . 
+. . d d d d d d d d . . . . . . 
+. . d d e 2 e e e e e . . . . . 
+. . d d e e e e e e d d . . . . 
+. d d d e e e e e 2 d d d . . . 
+. . . 2 2 2 2 2 2 2 e e e . . . 
+. . . 2 2 2 2 2 2 2 2 e e . . . 
+. . . . 2 2 2 2 2 2 2 e e e . . 
+. . . . . e e e e . . . e e . . 
+. . . . e e e e e . . . . . . . 
+`;
+            case "image11":
+            case "mario_walk_right_1":return img`
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . . . 2 2 2 2 2 2 2 2 2 2 . . 
+. . . . e e d d d d e d . . . . 
+. . . e e d d d d d e d d d . . 
+. . . e e d d d d d d e d d d . 
+. . . e e e d d d d e e e e . . 
+. . . . . d d d d d d d d . . . 
+. . e e e e e 2 2 e e . . . . . 
+d d d 2 2 2 2 2 2 2 e e e d d d 
+d d d d 2 2 2 2 d 2 2 2 e e d d 
+d d d 2 2 2 2 2 2 2 2 2 . e e . 
+. . . 2 2 2 2 2 2 2 2 2 2 e e . 
+. . 2 2 2 2 2 2 2 2 2 2 2 e e . 
+. e e e 2 2 2 . . 2 2 2 2 e e . 
+. e e e e . . . . . . . . . . . 
+. . e e e e . . . . . . . . . . 
+`;
+            case "image13":
+            case "mario_walk_right_2":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . 2 2 2 2 2 2 . . . . 
+. . . . . 2 2 2 2 2 2 2 2 2 2 . 
+. . . . . e e d d d d e d . . . 
+. . . . e e d d d d d e d d d . 
+. . . . e e d d d d d d e d d d 
+. . . . e e e d d d d e e e e . 
+. . . . . . d d d d d d d d . . 
+. . . . . e e e e e 2 e d d . . 
+. . . . d d e e e e e e d d . . 
+. . . d d d 2 e e e e e d d d . 
+. . . e e e 2 2 2 2 2 2 2 . . . 
+. . . e e 2 2 2 2 2 2 2 2 . . . 
+. . e e e 2 2 2 2 2 2 2 . . . . 
+. . e e . . . e e e e . . . . . 
+. . . . . . . e e e e e . . . . 
+`;
             case "image9":
-            case "mario_sprite0":return img`
+            case "mario_right":return img`
 . . . . . 2 2 2 2 2 2 . . . . . 
 . . . . 2 2 2 2 2 2 2 2 2 2 . . 
 . . . . e e d d d d e d . . . . 
@@ -196,6 +272,44 @@ e e e e e e e e e e e e e e e e
 . . . . 2 2 2 2 . 2 2 2 2 . . . 
 . . . e e e e . . . e e e e . . 
 . . e e e e e . . . e e e e e . 
+`;
+            case "image14":
+            case "mario_left":return img`
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . 2 2 2 2 2 2 2 2 2 2 . . . . 
+. . . . d e d d d d e e . . . . 
+. . d d d e d d d d d e e . . . 
+. d d d e d d d d d d e e . . . 
+. . e e e e d d d d e e . . . . 
+. . . d d d d d d d d . . . . . 
+. . . . . e e e 2 e e e . . . . 
+. . e e e 2 e e 2 e e e e . . . 
+. e e e e 2 2 2 2 e e e e e . . 
+. d d e 2 d 2 2 d 2 e d d d . . 
+. d d d 2 2 2 2 2 2 d d d d . . 
+. d d 2 2 2 2 2 2 2 2 d d d . . 
+. . . 2 2 2 2 . 2 2 2 2 . . . . 
+. . e e e e . . . e e e e . . . 
+. e e e e e . . . e e e e e . . 
+`;
+            case "image15":
+            case "mario_walk_left_0":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . 2 2 2 2 2 2 2 2 2 2 . . . . 
+. . . . d d e d d e e e . . . . 
+. . d d d d e d d d e d e . . . 
+. d d d d e d d d e e d e . . . 
+. . e e e e e d d d d e e . . . 
+. . . d d d d d d d d . . . . . 
+. . . . . e e e e 2 e e . . . . 
+. . . . e e e 2 2 e e e e . . . 
+. . . d d 2 2 d 2 2 e e e . . . 
+. . . 2 2 2 2 2 2 e e e e . . . 
+. . . 2 2 2 2 d d d e e 2 . . . 
+. . . . 2 2 2 2 d d e 2 . . . . 
+. . . . e e e e 2 2 2 . . . . . 
+. . . e e e e e e e e . . . . . 
 `;
         }
         return null;
