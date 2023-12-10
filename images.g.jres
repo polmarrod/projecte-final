@@ -1,0 +1,27 @@
+{
+    "image1": {
+        "data": "hwQQABEAAAAARERERERERA8AAABA3d3d3d3d3Q8AAABA/d3d3d3d3w8AAABA3d3d3d3d3Q8AAABA3U1E3d3d3Q8AAABA3URE393d3Q8AAABA3fT/393d3Q8AAABA3fTdTdRE3Q8AAABA3fTdRPRE3w8AAABA3URE9P/93w8AAABA3U1E9N3d3Q8AAABA3d3//93d3Q8AAABA3d3d3d3d3Q8AAABA/d3d3d3d3w8AAABA3d3d3d3d3Q8AAAAA/////////w8AAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "myImage"
+    },
+    "image3": {
+        "data": "hwQQABAAAAAAAADg7gAAAAAA4O7uDvAPAADu7u4O//8A4O/u7g7//wDu393t3v3/4O7+/+3d3f/u7u7f7d3d/e7u7u/u3d0N7u7u7+7d3Q3u7u7f7d3d/eDu/v/t3d3/AO7f3e3e/f8A4O/u7g7wDwAA7u7uDgAAAADg7u4OAAAAAADg7gAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "shroom_sprite1"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAADg7gAAAAAA4O7uDgAAAADu7u4OAAAA4O/u7g7wDwDu393t3v3/4O7+/+3d3f/u7u7f7d3d/e7u7u/u3d0N7u7u7+7d3Q3u7u7f7d3d/eDu/v/t3d3/AO7f3e3e/f8A4O/u7g7//wAA7u7uDv//AADg7u4O8A8AAADg7gAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "shroom_sprite2"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAAADg7gAAAAAA4O7uDgAAAADu7u4OAAAA4O/u7g7wDwDu393t3v3/4O7+/+3d3f/u7u7f7d3d/e7u7u/u3d0N7u7u7+7d3Q3u7u7f7d3d/eDu/v/t3d3/AO7f3e3e/f8A4O/u7g7wDwAA7u7uDgAAAADg7u4OAAAAAADg7gAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "shroom_sprite0"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}
