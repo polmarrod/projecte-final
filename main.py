@@ -2,14 +2,6 @@
 class SpriteKind:
     images = SpriteKind.create()
     game_option = SpriteKind.create()
-
-def on_up_pressed():
-    global selector
-    if selector == 1:
-        selector = 0
-        changePostionSelector(selector)
-controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
-
 def initializeMenu():
     global backgroundmenu, mario, title_onep, title_twop, selector_ig, selector, list2
     backgroundmenu = sprites.create(assets.image("""
@@ -38,8 +30,6 @@ def initializeMenu():
     selector_ig.set_scale(0.5, ScaleAnchor.MIDDLE)
     list2 = [title_onep, title_twop]
     changePostionSelector(selector)
-def changePostionSelector(selection: number):
-    selector_ig.set_position(list2[selection].x - 38, list2[selection].y + 1)
 
 def on_down_pressed():
     global selector
@@ -48,11 +38,21 @@ def on_down_pressed():
         changePostionSelector(selector)
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
+def changePostionSelector(selection: number):
+    selector_ig.set_position(list2[selection].x - 38, list2[selection].y + 1)
+
+def on_up_pressed():
+    global selector
+    if selector == 1:
+        selector = 0
+        changePostionSelector(selector)
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
 list2: List[Sprite] = []
+selector = 0
 selector_ig: Sprite = None
 title_twop: Sprite = None
 title_onep: Sprite = None
 mario: Sprite = None
 backgroundmenu: Sprite = None
-selector = 0
 initializeMenu()
