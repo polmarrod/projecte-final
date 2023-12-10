@@ -29,6 +29,21 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "turtle_sprite"
     },
+    "image1": {
+        "data": "hwQQABAAAAAAAAAAAOAOAAAAAAAA7g7wAAAAAADeDvAAAAAA4N/e8AAAAADg3979AAAAAODf3v0AAAAA7v7eDQAAAADu/t4NAAAAAO7+3g0AAAAA7v7eDQAAAADg3979AAAAAODf3v0AAAAA4N/e8AAAAAAA3g7wAAAAAADuDvAAAAAAAOAOAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "shroom_death"
+    },
+    "image8": {
+        "data": "hwQQABAAAAAAAAAAABEAAAAAAAB0EQAAAAAAQHcRAAAAAAB0dxcBAAAAQEd3RxEAAAR0d3R0FwEAQHd3R3d3EQBAd3dHd3cRAEB3d0d3dxEAQHd3R3d3EQAEdHd0dBcBAABAR3dHEQAAAAB0dxcBAAAAAEB3EQAAAAAAAHQRAAAAAAAAABEAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "shell_sprite"
+    },
+    "image9": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAODdDeAA4A4A7t0N7iDu7uDu3S3uIt7t7e7eIu4i3d3t7iIi7iLd3S0iLSIAIt3d7S4iAgAi3d3tLiIiACLu7e0iLSLuIN3uDe4iIu4g0O0N7t4i7iDQ7QDu3Q3uAAANAODdDeAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "mario_sprite0"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",

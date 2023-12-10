@@ -140,6 +140,63 @@ fee4dd41fdddef..
 ..4444411111444.
 .44444......4444
 `;
+            case "image1":
+            case "shroom_death":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e e . . . . . . 
+. . . e e e e e e e e e e . . . 
+. e e f f f e e e e f f f e e . 
+e e d d d d f f f f d d d d e e 
+e e e e e e e e e e e e e e e e 
+. . . d d d d d d d d d d . . . 
+. . . . d d d d d d d d . . . . 
+. f f f f f . . . . f f f f f . 
+`;
+            case "image8":
+            case "shell_sprite":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . 4 . . . . 4 . . . . . 
+. . . . . . 4 4 4 4 . . . . . . 
+. . . . . 4 7 7 7 7 4 . . . . . 
+. . . . 4 7 7 7 7 7 7 4 . . . . 
+. . . 4 7 7 7 7 7 7 7 7 4 . . . 
+. . 4 7 4 7 7 7 7 7 7 4 7 4 . . 
+. 4 7 7 7 4 7 7 7 7 4 7 7 7 4 . 
+. 7 7 7 7 7 4 4 4 4 7 7 7 7 7 . 
+1 1 1 7 7 4 7 7 7 7 4 7 7 1 1 1 
+1 1 1 1 4 7 7 7 7 7 7 4 1 1 1 1 
+. . . 1 1 7 7 7 7 7 7 1 1 . . . 
+. . . . 1 1 7 7 7 7 1 1 . . . . 
+. . . . . 1 1 1 1 1 1 . . . . . 
+. . . . . . 1 1 1 1 . . . . . . 
+`;
+            case "image9":
+            case "mario_sprite0":return img`
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . . . 2 2 2 2 2 2 2 2 2 2 . . 
+. . . . e e d d d d e d . . . . 
+. . . e e d d d d d e d d d . . 
+. . . e e d d d d d d e d d d . 
+. . . . e e d d d d e e e e . . 
+. . . . . d d d d d d d d . . . 
+. . . . e e e 2 e e e . . . . . 
+. . . e e e e 2 e e 2 e e e . . 
+. . e e e e e 2 2 2 2 e e e e . 
+. . d d d e 2 d 2 2 d 2 e d d . 
+. . d d d d 2 2 2 2 2 2 d d d . 
+. . d d d 2 2 2 2 2 2 2 2 d d . 
+. . . . 2 2 2 2 . 2 2 2 2 . . . 
+. . . e e e e . . . e e e e . . 
+. . e e e e e . . . e e e e e . 
+`;
         }
         return null;
     })

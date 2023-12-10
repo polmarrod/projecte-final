@@ -1,82 +1,68 @@
-def on_hit_wall(sprite, location):
-    global boost
-    if tiles.tile_at_location_equals(location, assets.tile("""
-        prize_block
-    """)):
-        info.change_score_by(10)
-        tiles.set_tile_at(location, assets.tile("""
-            myTile1
-        """))
-    elif sprite.tile_kind_at(TileDirection.TOP,
-        assets.tile("""
-            prize_block_boost
-        """)):
-        boost = sprites.create(assets.image("""
-            boost_sprite
-        """), SpriteKind.food)
-        tiles.place_on_tile(boost,
-            tiles.get_tile_location(location.column, location.row - 1))
-        boost.vx = 50
-        boost.ay = 160
-        boost.set_bounce_on_wall(False)
-        tiles.set_tile_at(location, assets.tile("""
-            myTile1
-        """))
-scene.on_hit_wall(SpriteKind.player, on_hit_wall)
-
+@namespace
+class SpriteKind:
+    Shroom = SpriteKind.create()
+    Turtle = SpriteKind.create()
+    Shell = SpriteKind.create()
 def jumpAnimation():
     animation.stop_animation(animation.AnimationTypes.ALL, mario)
-    if sprites.read_data_string(mario, "state") == "small":
-        if mario.vx > 0:
-            mario.set_image(img("""
-                . . . . . f f f f f f . . . . . 
-                                . . . f f e e e e f 2 f . . . . 
-                                . . f f e e e e f 2 2 2 f . . . 
-                                . . f e e e f f e e e e f . . . 
-                                . . f f f f e e 2 2 2 2 e f . . 
-                                . . f e 2 2 2 f f f f e 2 f . . 
-                                . f f f f f f f e e e f f f . . 
-                                . f f e 4 4 e b f 4 4 e e f . . 
-                                . f e e 4 d 4 1 f d d e f f . . 
-                                . . f e e e 4 d d d d f d d f . 
-                                . . . f f e e 4 e e e f b b f . 
-                                . . . . f 2 2 2 4 d d e b b f . 
-                                . . . . e 2 2 2 e d d e b f . . 
-                                . . . . f 4 4 4 f e e f f . . . 
-                                . . . . . f f f f f f . . . . . 
-                                . . . . . . f f f . . . . . . .
-            """))
-        elif mario.vx < 0:
-            mario.set_image(img("""
-                . . . . . f f f f f f . . . . . 
-                                . . . . f 2 f e e e e f f . . . 
-                                . . . f 2 2 2 f e e e e f f . . 
-                                . . . f e e e e f f e e e f . . 
-                                . . f e 2 2 2 2 e e f f f f . . 
-                                . . f 2 e f f f f 2 2 2 e f . . 
-                                . . f f f e e e f f f f f f f . 
-                                . . f e e 4 4 f b e 4 4 e f f . 
-                                . . f f e d d f 1 4 d 4 e e f . 
-                                . f d d f d d d d 4 e e e f . . 
-                                . f b b f e e e 4 e e f f . . . 
-                                . f b b e d d 4 2 2 2 f . . . . 
-                                . . f b e d d e 2 2 2 e . . . . 
-                                . . . f f e e f 4 4 4 f . . . . 
-                                . . . . . f f f f f f . . . . . 
-                                . . . . . . . f f f . . . . . .
-            """))
+    if mario.vx > 0:
+        mario.set_image(img("""
+            . . . . . f f f f f f . . . . . 
+                        . . . f f e e e e f 2 f . . . . 
+                        . . f f e e e e f 2 2 2 f . . . 
+                        . . f e e e f f e e e e f . . . 
+                        . . f f f f e e 2 2 2 2 e f . . 
+                        . . f e 2 2 2 f f f f e 2 f . . 
+                        . f f f f f f f e e e f f f . . 
+                        . f f e 4 4 e b f 4 4 e e f . . 
+                        . f e e 4 d 4 1 f d d e f f . . 
+                        . . f e e e 4 d d d d f d d f . 
+                        . . . f f e e 4 e e e f b b f . 
+                        . . . . f 2 2 2 4 d d e b b f . 
+                        . . . . e 2 2 2 e d d e b f . . 
+                        . . . . f 4 4 4 f e e f f . . . 
+                        . . . . . f f f f f f . . . . . 
+                        . . . . . . f f f . . . . . . .
+        """))
+    elif mario.vx < 0:
+        mario.set_image(img("""
+            . . . . . f f f f f f . . . . . 
+                        . . . . f 2 f e e e e f f . . . 
+                        . . . f 2 2 2 f e e e e f f . . 
+                        . . . f e e e e f f e e e f . . 
+                        . . f e 2 2 2 2 e e f f f f . . 
+                        . . f 2 e f f f f 2 2 2 e f . . 
+                        . . f f f e e e f f f f f f f . 
+                        . . f e e 4 4 f b e 4 4 e f f . 
+                        . . f f e d d f 1 4 d 4 e e f . 
+                        . f d d f d d d d 4 e e e f . . 
+                        . f b b f e e e 4 e e f f . . . 
+                        . f b b e d d 4 2 2 2 f . . . . 
+                        . . f b e d d e 2 2 2 e . . . . 
+                        . . . f f e e f 4 4 4 f . . . . 
+                        . . . . . f f f f f f . . . . . 
+                        . . . . . . . f f f . . . . . .
+        """))
+
+def on_on_overlap(sprite, otherSprite2):
+    if sprite.y < otherSprite2.top:
+        otherSprite2.vx = 0
+        animation.stop_animation(animation.AnimationTypes.ALL, otherSprite2)
+        jump()
+        otherSprite2.set_image(assets.image("""
+            shroom_death
+        """))
+        pause(450)
+        sprites.destroy(otherSprite2)
+        info.change_score_by(100)
+    else:
+        deathMario()
+sprites.on_overlap(SpriteKind.player, SpriteKind.Shroom, on_on_overlap)
 
 def on_a_pressed():
     if mario.vy == 0:
         jump()
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
-
-def on_hit_wall2(sprite2, location2):
-    if sprite2.is_hitting_tile(CollisionDirection.RIGHT):
-        sprite2.vx = -50
-    elif sprite2.is_hitting_tile(CollisionDirection.LEFT):
-        sprite2.vx = 50
-scene.on_hit_wall(SpriteKind.food, on_hit_wall2)
 
 def deathMario():
     info.stop_countdown()
@@ -84,227 +70,251 @@ def deathMario():
     info.set_score(0)
     info.change_countdown_by(400 - info.countdown())
     tiles.set_current_tilemap(tilemap("""
-        level_1_0
+        level_1_2
     """))
-    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
-    spawnEnemies()
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Shroom)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Turtle)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.Shell)
     tiles.place_on_tile(mario, tiles.get_tile_location(0, 13))
+    spawnEnemies()
+def walkAnimation():
+    if mario.vx > 0:
+        animation.run_image_animation(mario,
+            [img("""
+                    . . . . . . f f f f f f . . . . 
+                                . . . . f f e e e e f 2 f . . . 
+                                . . . f f e e e e f 2 2 2 f . . 
+                                . . . f e e e f f e e e e f . . 
+                                . . . f f f f e e 2 2 2 2 e f . 
+                                . . . f e 2 2 2 f f f f e 2 f . 
+                                . . f f f f f f f e e e f f f . 
+                                . . f f e 4 4 e b f 4 4 e e f . 
+                                . . f e e 4 d 4 1 f d d e f . . 
+                                . . . f e e e 4 d d d d f . . . 
+                                . . . . f f e e 4 4 4 e f . . . 
+                                . . . . . 4 d d e 2 2 2 f . . . 
+                                . . . . . e d d e 2 2 2 f . . . 
+                                . . . . . f e e f 4 5 5 f . . . 
+                                . . . . . . f f f f f f . . . . 
+                                . . . . . . . f f f . . . . . .
+                """),
+                img("""
+                    . . . . . . . . . . . . . . . . 
+                                . . . . . . f f f f f f . . . . 
+                                . . . . f f e e e e f 2 f . . . 
+                                . . . f f e e e e f 2 2 2 f . . 
+                                . . . f e e e f f e e e e f . . 
+                                . . . f f f f e e 2 2 2 2 e f . 
+                                . . . f e 2 2 2 f f f f e 2 f . 
+                                . . f f f f f f f e e e f f f . 
+                                . . f f e 4 4 e b f 4 4 e e f . 
+                                . . f e e 4 d 4 1 f d d e f . . 
+                                . . . f e e e e e d d d f . . . 
+                                . . . . . f 4 d d e 4 e f . . . 
+                                . . . . . f e d d e 2 2 f . . . 
+                                . . . . f f f e e f 5 5 f f . . 
+                                . . . . f f f f f f f f f f . . 
+                                . . . . . f f . . . f f f . . .
+                """),
+                img("""
+                    . . . . . . f f f f f f . . . . 
+                                . . . . f f e e e e f 2 f . . . 
+                                . . . f f e e e e f 2 2 2 f . . 
+                                . . . f e e e f f e e e e f . . 
+                                . . . f f f f e e 2 2 2 2 e f . 
+                                . . . f e 2 2 2 f f f f e 2 f . 
+                                . . f f f f f f f e e e f f f . 
+                                . . f f e 4 4 e b f 4 4 e e f . 
+                                . . f e e 4 d 4 1 f d d e f . . 
+                                . . . f e e e 4 d d d d f . . . 
+                                . . . . f f e e 4 4 4 e f . . . 
+                                . . . . . 4 d d e 2 2 2 f . . . 
+                                . . . . . e d d e 2 2 2 f . . . 
+                                . . . . . f e e f 4 5 5 f . . . 
+                                . . . . . . f f f f f f . . . . 
+                                . . . . . . . f f f . . . . . .
+                """),
+                img("""
+                    . . . . . . . . . . . . . . . . 
+                                . . . . . . f f f f f f . . . . 
+                                . . . . f f e e e e f 2 f . . . 
+                                . . . f f e e e e f 2 2 2 f . . 
+                                . . . f e e e f f e e e e f . . 
+                                . . . f f f f e e 2 2 2 2 e f . 
+                                . . . f e 2 2 2 f f f f e 2 f . 
+                                . . f f f f f f f e e e f f f . 
+                                . . f f e 4 4 e b f 4 4 e e f . 
+                                . . f e e 4 d 4 1 f d d e f . . 
+                                . . . f e e e 4 d d d d f . . . 
+                                . . . . 4 d d e 4 4 4 e f . . . 
+                                . . . . e d d e 2 2 2 2 f . . . 
+                                . . . . f e e f 4 4 5 5 f f . . 
+                                . . . . f f f f f f f f f f . . 
+                                . . . . . f f . . . f f f . . .
+                """)],
+            100,
+            False)
+    elif mario.vx < 0:
+        animation.run_image_animation(mario,
+            [img("""
+                    . . . . f f f f f f . . . . . . 
+                                . . . f 2 f e e e e f f . . . . 
+                                . . f 2 2 2 f e e e e f f . . . 
+                                . . f e e e e f f e e e f . . . 
+                                . f e 2 2 2 2 e e f f f f . . . 
+                                . f 2 e f f f f 2 2 2 e f . . . 
+                                . f f f e e e f f f f f f f . . 
+                                . f e e 4 4 f b e 4 4 e f f . . 
+                                . . f e d d f 1 4 d 4 e e f . . 
+                                . . . f d d d d 4 e e e f . . . 
+                                . . . f e 4 4 4 e e f f . . . . 
+                                . . . f 2 2 2 e d d 4 . . . . . 
+                                . . . f 2 2 2 e d d e . . . . . 
+                                . . . f 5 5 4 f e e f . . . . . 
+                                . . . . f f f f f f . . . . . . 
+                                . . . . . . f f f . . . . . . .
+                """),
+                img("""
+                    . . . . . . . . . . . . . . . . 
+                                . . . . f f f f f f . . . . . . 
+                                . . . f 2 f e e e e f f . . . . 
+                                . . f 2 2 2 f e e e e f f . . . 
+                                . . f e e e e f f e e e f . . . 
+                                . f e 2 2 2 2 e e f f f f . . . 
+                                . f 2 e f f f f 2 2 2 e f . . . 
+                                . f f f e e e f f f f f f f . . 
+                                . f e e 4 4 f b e 4 4 e f f . . 
+                                . . f e d d f 1 4 d 4 e e f . . 
+                                . . . f d d d e e e e e f . . . 
+                                . . . f e 4 e d d 4 f . . . . . 
+                                . . . f 2 2 e d d e f . . . . . 
+                                . . f f 5 5 f e e f f f . . . . 
+                                . . f f f f f f f f f f . . . . 
+                                . . . f f f . . . f f . . . . .
+                """),
+                img("""
+                    . . . . f f f f f f . . . . . . 
+                                . . . f 2 f e e e e f f . . . . 
+                                . . f 2 2 2 f e e e e f f . . . 
+                                . . f e e e e f f e e e f . . . 
+                                . f e 2 2 2 2 e e f f f f . . . 
+                                . f 2 e f f f f 2 2 2 e f . . . 
+                                . f f f e e e f f f f f f f . . 
+                                . f e e 4 4 f b e 4 4 e f f . . 
+                                . . f e d d f 1 4 d 4 e e f . . 
+                                . . . f d d d d 4 e e e f . . . 
+                                . . . f e 4 4 4 e e f f . . . . 
+                                . . . f 2 2 2 e d d 4 . . . . . 
+                                . . . f 2 2 2 e d d e . . . . . 
+                                . . . f 5 5 4 f e e f . . . . . 
+                                . . . . f f f f f f . . . . . . 
+                                . . . . . . f f f . . . . . . .
+                """),
+                img("""
+                    . . . . . . . . . . . . . . . . 
+                                . . . . f f f f f f . . . . . . 
+                                . . . f 2 f e e e e f f . . . . 
+                                . . f 2 2 2 f e e e e f f . . . 
+                                . . f e e e e f f e e e f . . . 
+                                . f e 2 2 2 2 e e f f f f . . . 
+                                . f 2 e f f f f 2 2 2 e f . . . 
+                                . f f f e e e f f f f f f f . . 
+                                . f e e 4 4 f b e 4 4 e f f . . 
+                                . . f e d d f 1 4 d 4 e e f . . 
+                                . . . f d d d d 4 e e e f . . . 
+                                . . . f e 4 4 4 e d d 4 . . . . 
+                                . . . f 2 2 2 2 e d d e . . . . 
+                                . . f f 5 5 4 4 f e e f . . . . 
+                                . . f f f f f f f f f f . . . . 
+                                . . . f f f . . . f f . . . . .
+                """)],
+            100,
+            False)
 
-def on_on_overlap(sprite4, otherSprite2):
-    if sprite4.y < otherSprite2.top:
-        sprites.destroy(otherSprite2)
+def on_on_overlap2(sprite2, otherSprite22):
+    global shell
+    if sprite2.y < otherSprite22.top:
+        otherSprite22.vx = 0
+        animation.stop_animation(animation.AnimationTypes.ALL, otherSprite22)
+        jump()
+        sprites.destroy(otherSprite22)
         info.change_score_by(100)
+        shell = sprites.create(assets.image("""
+            shell_sprite
+        """), SpriteKind.Shell)
+        tiles.place_on_tile(shell, otherSprite22.tilemap_location())
+        shell.ay = 350
     else:
         deathMario()
-sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Turtle, on_on_overlap2)
 
-def walkAnimation():
-    if sprites.read_data_string(mario, "state") == "small":
-        if mario.vx > 0:
-            animation.run_image_animation(mario,
-                [img("""
-                        . . . . . . f f f f f f . . . . 
-                                        . . . . f f e e e e f 2 f . . . 
-                                        . . . f f e e e e f 2 2 2 f . . 
-                                        . . . f e e e f f e e e e f . . 
-                                        . . . f f f f e e 2 2 2 2 e f . 
-                                        . . . f e 2 2 2 f f f f e 2 f . 
-                                        . . f f f f f f f e e e f f f . 
-                                        . . f f e 4 4 e b f 4 4 e e f . 
-                                        . . f e e 4 d 4 1 f d d e f . . 
-                                        . . . f e e e 4 d d d d f . . . 
-                                        . . . . f f e e 4 4 4 e f . . . 
-                                        . . . . . 4 d d e 2 2 2 f . . . 
-                                        . . . . . e d d e 2 2 2 f . . . 
-                                        . . . . . f e e f 4 5 5 f . . . 
-                                        . . . . . . f f f f f f . . . . 
-                                        . . . . . . . f f f . . . . . .
-                    """),
-                    img("""
-                        . . . . . . . . . . . . . . . . 
-                                        . . . . . . f f f f f f . . . . 
-                                        . . . . f f e e e e f 2 f . . . 
-                                        . . . f f e e e e f 2 2 2 f . . 
-                                        . . . f e e e f f e e e e f . . 
-                                        . . . f f f f e e 2 2 2 2 e f . 
-                                        . . . f e 2 2 2 f f f f e 2 f . 
-                                        . . f f f f f f f e e e f f f . 
-                                        . . f f e 4 4 e b f 4 4 e e f . 
-                                        . . f e e 4 d 4 1 f d d e f . . 
-                                        . . . f e e e e e d d d f . . . 
-                                        . . . . . f 4 d d e 4 e f . . . 
-                                        . . . . . f e d d e 2 2 f . . . 
-                                        . . . . f f f e e f 5 5 f f . . 
-                                        . . . . f f f f f f f f f f . . 
-                                        . . . . . f f . . . f f f . . .
-                    """),
-                    img("""
-                        . . . . . . f f f f f f . . . . 
-                                        . . . . f f e e e e f 2 f . . . 
-                                        . . . f f e e e e f 2 2 2 f . . 
-                                        . . . f e e e f f e e e e f . . 
-                                        . . . f f f f e e 2 2 2 2 e f . 
-                                        . . . f e 2 2 2 f f f f e 2 f . 
-                                        . . f f f f f f f e e e f f f . 
-                                        . . f f e 4 4 e b f 4 4 e e f . 
-                                        . . f e e 4 d 4 1 f d d e f . . 
-                                        . . . f e e e 4 d d d d f . . . 
-                                        . . . . f f e e 4 4 4 e f . . . 
-                                        . . . . . 4 d d e 2 2 2 f . . . 
-                                        . . . . . e d d e 2 2 2 f . . . 
-                                        . . . . . f e e f 4 5 5 f . . . 
-                                        . . . . . . f f f f f f . . . . 
-                                        . . . . . . . f f f . . . . . .
-                    """),
-                    img("""
-                        . . . . . . . . . . . . . . . . 
-                                        . . . . . . f f f f f f . . . . 
-                                        . . . . f f e e e e f 2 f . . . 
-                                        . . . f f e e e e f 2 2 2 f . . 
-                                        . . . f e e e f f e e e e f . . 
-                                        . . . f f f f e e 2 2 2 2 e f . 
-                                        . . . f e 2 2 2 f f f f e 2 f . 
-                                        . . f f f f f f f e e e f f f . 
-                                        . . f f e 4 4 e b f 4 4 e e f . 
-                                        . . f e e 4 d 4 1 f d d e f . . 
-                                        . . . f e e e 4 d d d d f . . . 
-                                        . . . . 4 d d e 4 4 4 e f . . . 
-                                        . . . . e d d e 2 2 2 2 f . . . 
-                                        . . . . f e e f 4 4 5 5 f f . . 
-                                        . . . . f f f f f f f f f f . . 
-                                        . . . . . f f . . . f f f . . .
-                    """)],
-                100,
-                False)
-        elif mario.vx < 0:
-            animation.run_image_animation(mario,
-                [img("""
-                        . . . . f f f f f f . . . . . . 
-                                        . . . f 2 f e e e e f f . . . . 
-                                        . . f 2 2 2 f e e e e f f . . . 
-                                        . . f e e e e f f e e e f . . . 
-                                        . f e 2 2 2 2 e e f f f f . . . 
-                                        . f 2 e f f f f 2 2 2 e f . . . 
-                                        . f f f e e e f f f f f f f . . 
-                                        . f e e 4 4 f b e 4 4 e f f . . 
-                                        . . f e d d f 1 4 d 4 e e f . . 
-                                        . . . f d d d d 4 e e e f . . . 
-                                        . . . f e 4 4 4 e e f f . . . . 
-                                        . . . f 2 2 2 e d d 4 . . . . . 
-                                        . . . f 2 2 2 e d d e . . . . . 
-                                        . . . f 5 5 4 f e e f . . . . . 
-                                        . . . . f f f f f f . . . . . . 
-                                        . . . . . . f f f . . . . . . .
-                    """),
-                    img("""
-                        . . . . . . . . . . . . . . . . 
-                                        . . . . f f f f f f . . . . . . 
-                                        . . . f 2 f e e e e f f . . . . 
-                                        . . f 2 2 2 f e e e e f f . . . 
-                                        . . f e e e e f f e e e f . . . 
-                                        . f e 2 2 2 2 e e f f f f . . . 
-                                        . f 2 e f f f f 2 2 2 e f . . . 
-                                        . f f f e e e f f f f f f f . . 
-                                        . f e e 4 4 f b e 4 4 e f f . . 
-                                        . . f e d d f 1 4 d 4 e e f . . 
-                                        . . . f d d d e e e e e f . . . 
-                                        . . . f e 4 e d d 4 f . . . . . 
-                                        . . . f 2 2 e d d e f . . . . . 
-                                        . . f f 5 5 f e e f f f . . . . 
-                                        . . f f f f f f f f f f . . . . 
-                                        . . . f f f . . . f f . . . . .
-                    """),
-                    img("""
-                        . . . . f f f f f f . . . . . . 
-                                        . . . f 2 f e e e e f f . . . . 
-                                        . . f 2 2 2 f e e e e f f . . . 
-                                        . . f e e e e f f e e e f . . . 
-                                        . f e 2 2 2 2 e e f f f f . . . 
-                                        . f 2 e f f f f 2 2 2 e f . . . 
-                                        . f f f e e e f f f f f f f . . 
-                                        . f e e 4 4 f b e 4 4 e f f . . 
-                                        . . f e d d f 1 4 d 4 e e f . . 
-                                        . . . f d d d d 4 e e e f . . . 
-                                        . . . f e 4 4 4 e e f f . . . . 
-                                        . . . f 2 2 2 e d d 4 . . . . . 
-                                        . . . f 2 2 2 e d d e . . . . . 
-                                        . . . f 5 5 4 f e e f . . . . . 
-                                        . . . . f f f f f f . . . . . . 
-                                        . . . . . . f f f . . . . . . .
-                    """),
-                    img("""
-                        . . . . . . . . . . . . . . . . 
-                                        . . . . f f f f f f . . . . . . 
-                                        . . . f 2 f e e e e f f . . . . 
-                                        . . f 2 2 2 f e e e e f f . . . 
-                                        . . f e e e e f f e e e f . . . 
-                                        . f e 2 2 2 2 e e f f f f . . . 
-                                        . f 2 e f f f f 2 2 2 e f . . . 
-                                        . f f f e e e f f f f f f f . . 
-                                        . f e e 4 4 f b e 4 4 e f f . . 
-                                        . . f e d d f 1 4 d 4 e e f . . 
-                                        . . . f d d d d 4 e e e f . . . 
-                                        . . . f e 4 4 4 e d d 4 . . . . 
-                                        . . . f 2 2 2 2 e d d e . . . . 
-                                        . . f f 5 5 4 4 f e e f . . . . 
-                                        . . f f f f f f f f f f . . . . 
-                                        . . . f f f . . . f f . . . . .
-                    """)],
-                100,
-                False)
 def spawnEnemies():
-    global shroom
+    global shroom, turtle
     for value in tiles.get_tiles_by_type(assets.tile("""
         myTile2
     """)):
-        shroom = sprites.create(assets.image("""
-            shroom_sprite0
-        """), SpriteKind.enemy)
-        tiles.place_on_tile(shroom, value)
-        tiles.set_tile_at(value, assets.tile("""
-            transparency16
-        """))
-        shroom.vx = -20
-        animation.run_image_animation(shroom,
-            [img("""
-                    . . . . . . e e e e . . . . . . 
-                                . . . . . e e e e e e . . . . . 
-                                . . . . e e e e e e e e . . . . 
-                                . . . e e e e e e e e e e . . . 
-                                . . e f f e e e e e e f f e . . 
-                                . e e e d f e e e e f d e e e . 
-                                . e e e d f f f f f f d e e e . 
-                                e e e e d f d e e d f d e e e e 
-                                e e e e d d d e e d d d e e e e 
-                                e e e e e e e e e e e e e e e e 
-                                . e e e e d d d d d d e e e e . 
-                                . . . . d d d d d d d d . . . . 
-                                . . f f d d d d d d d d . . . . 
-                                . f f f f d d d d d d f f . . . 
-                                . f f f f f d d d d f f f . . . 
-                                . . f f f f f . . f f f . . . .
-                """),
-                img("""
-                    . . . . . . e e e e . . . . . . 
-                                . . . . . e e e e e e . . . . . 
-                                . . . . e e e e e e e e . . . . 
-                                . . . e e e e e e e e e e . . . 
-                                . . e f f e e e e e e f f e . . 
-                                . e e e d f e e e e f d e e e . 
-                                . e e e d f f f f f f d e e e . 
-                                e e e e d f d e e d f d e e e e 
-                                e e e e d d d e e d d d e e e e 
-                                e e e e e e e e e e e e e e e e 
-                                . e e e e d d d d d d e e e e . 
-                                . . . . d d d d d d d d . . . . 
-                                . . . . d d d d d d d d f f . . 
-                                . . . f f d d d d d d f f f f . 
-                                . . . f f f d d d d f f f f f . 
-                                . . . . f f f . . f f f f f . .
-                """)],
-            500,
-            True)
-        shroom.set_bounce_on_wall(True)
+        if mario.tilemap_location().column + scene.screen_width() > value.column:
+            shroom = sprites.create(assets.image("""
+                shroom_sprite0
+            """), SpriteKind.Shroom)
+            tiles.place_on_tile(shroom, value)
+            tiles.set_tile_at(value, assets.tile("""
+                transparency16
+            """))
+            shroom.vx = -20
+            animation.run_image_animation(shroom,
+                [img("""
+                        . . . . . . e e e e . . . . . . 
+                                        . . . . . e e e e e e . . . . . 
+                                        . . . . e e e e e e e e . . . . 
+                                        . . . e e e e e e e e e e . . . 
+                                        . . e f f e e e e e e f f e . . 
+                                        . e e e d f e e e e f d e e e . 
+                                        . e e e d f f f f f f d e e e . 
+                                        e e e e d f d e e d f d e e e e 
+                                        e e e e d d d e e d d d e e e e 
+                                        e e e e e e e e e e e e e e e e 
+                                        . e e e e d d d d d d e e e e . 
+                                        . . . . d d d d d d d d . . . . 
+                                        . . f f d d d d d d d d . . . . 
+                                        . f f f f d d d d d d f f . . . 
+                                        . f f f f f d d d d f f f . . . 
+                                        . . f f f f f . . f f f . . . .
+                    """),
+                    img("""
+                        . . . . . . e e e e . . . . . . 
+                                        . . . . . e e e e e e . . . . . 
+                                        . . . . e e e e e e e e . . . . 
+                                        . . . e e e e e e e e e e . . . 
+                                        . . e f f e e e e e e f f e . . 
+                                        . e e e d f e e e e f d e e e . 
+                                        . e e e d f f f f f f d e e e . 
+                                        e e e e d f d e e d f d e e e e 
+                                        e e e e d d d e e d d d e e e e 
+                                        e e e e e e e e e e e e e e e e 
+                                        . e e e e d d d d d d e e e e . 
+                                        . . . . d d d d d d d d . . . . 
+                                        . . . . d d d d d d d d f f . . 
+                                        . . . f f d d d d d d f f f f . 
+                                        . . . f f f d d d d f f f f f . 
+                                        . . . . f f f . . f f f f f . .
+                    """)],
+                500,
+                True)
+            shroom.ay = 160
+            shroom.set_bounce_on_wall(False)
+    for value2 in tiles.get_tiles_by_type(assets.tile("""
+        myTile
+    """)):
+        if mario.tilemap_location().column + scene.screen_width() > value2.column:
+            turtle = sprites.create(assets.image("""
+                turtle_sprite
+            """), SpriteKind.Turtle)
+            tiles.place_on_tile(turtle, value2)
+            tiles.set_tile_at(value2, assets.tile("""
+                transparency16
+            """))
+            turtle.vx = -20
 
 def on_life_zero():
     game.game_over(False)
@@ -312,24 +322,40 @@ info.on_life_zero(on_life_zero)
 
 def jump():
     jumpAnimation()
-    mario.vy = -190
+    mario.vy = -220
 
-def on_on_overlap2(sprite3, otherSprite):
+def on_on_overlap3(sprite3, otherSprite3):
+    otherSprite3.vx = sprite3.vx * 2
+    otherSprite3.set_bounce_on_wall(True)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Shell, on_on_overlap3)
+
+def on_on_overlap4(sprite4, otherSprite):
     sprites.destroy(otherSprite)
-    sprites.set_data_string(mario, "state", "tall")
-    mario.set_image(assets.image("""
-        sprite_tall
-    """))
-sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap2)
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap4)
+
+def on_hit_wall2(sprite5, location):
+    if sprite5.is_hitting_tile(CollisionDirection.RIGHT):
+        sprite5.vx = -50
+    elif sprite5.is_hitting_tile(CollisionDirection.LEFT):
+        sprite5.vx = 50
+scene.on_hit_wall(SpriteKind.Shroom, on_hit_wall2)
 
 def createPlayer(player2: Sprite):
     scene.camera_follow_sprite(player2)
     tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
     controller.move_sprite(player2, 100, 0)
-    sprites.set_data_string(mario, "state", "small")
-shroom: Sprite = None
 boost: Sprite = None
+turtle: Sprite = None
+shroom: Sprite = None
+shell: Sprite = None
 mario: Sprite = None
+scene.on_hit_wall(SpriteKind.player, on_hit_wall)
+def on_hit_wall(sprite6: Sprite, location2: tiles.Location):
+    if sprite6.is_hitting_tile(CollisionDirection.RIGHT):
+        sprite6.vx = -50
+    elif sprite6.is_hitting_tile(CollisionDirection.LEFT):
+        sprite6.vx = 50
+scene.on_hit_wall(SpriteKind.food, on_hit_wall)
 info.start_countdown(400)
 scene.set_background_image(img("""
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -454,7 +480,7 @@ scene.set_background_image(img("""
         9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
 """))
 tiles.set_current_tilemap(tilemap("""
-    level_1_0
+    level_1_2
 """))
 mario = sprites.create(img("""
         . . . . . . . . . . . . . . . . 
@@ -479,9 +505,35 @@ createPlayer(mario)
 mario.ay = 350
 info.set_life(3)
 info.set_score(0)
-spawnEnemies()
 
 def on_on_update():
+    global boost
+    spawnEnemies()
+    for value22 in tiles.get_tiles_by_type(assets.tile("""
+        prize_block
+    """)):
+        if mario.tilemap_location().column == value22.column and mario.tilemap_location().row == value22.row + 1:
+            info.change_score_by(10)
+            tiles.set_tile_at(value22, assets.tile("""
+                myTile1
+            """))
+    for value222 in tiles.get_tiles_by_type(assets.tile("""
+        prize_block_boost
+    """)):
+        if mario.tilemap_location().column == value222.column and mario.tilemap_location().row == value222.row + 1:
+            boost = sprites.create(assets.image("""
+                boost_sprite
+            """), SpriteKind.food)
+            tiles.place_on_tile(boost,
+                tiles.get_tile_location(value222.column, value222.row - 1))
+            boost.vx = 50
+            boost.ay = 160
+            tiles.set_tile_at(value222, assets.tile("""
+                myTile1
+            """))
+game.on_update(on_on_update)
+
+def on_on_update2():
     if mario.vy == 0:
         walkAnimation()
-game.on_update(on_on_update)
+game.on_update(on_on_update2)

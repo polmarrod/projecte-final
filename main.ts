@@ -1,70 +1,66 @@
-scene.onHitWall(SpriteKind.Player, function (sprite, location) {
-    if (sprite.tileKindAt(TileDirection.Top, assets.tile`prize_block`)) {
-        info.changeScoreBy(10)
-        tiles.setTileAt(location, assets.tile`myTile1`)
-    } else if (sprite.tileKindAt(TileDirection.Top, assets.tile`prize_block_boost`)) {
-        boost = sprites.create(assets.image`boost_sprite`, SpriteKind.Food)
-        tiles.placeOnTile(boost, tiles.getTileLocation(location.column, location.row - 1))
-        boost.vx = 50
-        boost.ay = 160
-        boost.setBounceOnWall(false)
-        tiles.setTileAt(location, assets.tile`myTile1`)
-    }
-})
+namespace SpriteKind {
+    export const Shroom = SpriteKind.create()
+    export const Turtle = SpriteKind.create()
+    export const Shell = SpriteKind.create()
+}
 function jumpAnimation () {
     animation.stopAnimation(animation.AnimationTypes.All, mario)
-    if (sprites.readDataString(mario, "state") == "small") {
-        if (mario.vx > 0) {
-            mario.setImage(img`
-                . . . . . f f f f f f . . . . . 
-                . . . f f e e e e f 2 f . . . . 
-                . . f f e e e e f 2 2 2 f . . . 
-                . . f e e e f f e e e e f . . . 
-                . . f f f f e e 2 2 2 2 e f . . 
-                . . f e 2 2 2 f f f f e 2 f . . 
-                . f f f f f f f e e e f f f . . 
-                . f f e 4 4 e b f 4 4 e e f . . 
-                . f e e 4 d 4 1 f d d e f f . . 
-                . . f e e e 4 d d d d f d d f . 
-                . . . f f e e 4 e e e f b b f . 
-                . . . . f 2 2 2 4 d d e b b f . 
-                . . . . e 2 2 2 e d d e b f . . 
-                . . . . f 4 4 4 f e e f f . . . 
-                . . . . . f f f f f f . . . . . 
-                . . . . . . f f f . . . . . . . 
-                `)
-        } else if (mario.vx < 0) {
-            mario.setImage(img`
-                . . . . . f f f f f f . . . . . 
-                . . . . f 2 f e e e e f f . . . 
-                . . . f 2 2 2 f e e e e f f . . 
-                . . . f e e e e f f e e e f . . 
-                . . f e 2 2 2 2 e e f f f f . . 
-                . . f 2 e f f f f 2 2 2 e f . . 
-                . . f f f e e e f f f f f f f . 
-                . . f e e 4 4 f b e 4 4 e f f . 
-                . . f f e d d f 1 4 d 4 e e f . 
-                . f d d f d d d d 4 e e e f . . 
-                . f b b f e e e 4 e e f f . . . 
-                . f b b e d d 4 2 2 2 f . . . . 
-                . . f b e d d e 2 2 2 e . . . . 
-                . . . f f e e f 4 4 4 f . . . . 
-                . . . . . f f f f f f . . . . . 
-                . . . . . . . f f f . . . . . . 
-                `)
-        }
+    if (mario.vx > 0) {
+        mario.setImage(img`
+            . . . . . f f f f f f . . . . . 
+            . . . f f e e e e f 2 f . . . . 
+            . . f f e e e e f 2 2 2 f . . . 
+            . . f e e e f f e e e e f . . . 
+            . . f f f f e e 2 2 2 2 e f . . 
+            . . f e 2 2 2 f f f f e 2 f . . 
+            . f f f f f f f e e e f f f . . 
+            . f f e 4 4 e b f 4 4 e e f . . 
+            . f e e 4 d 4 1 f d d e f f . . 
+            . . f e e e 4 d d d d f d d f . 
+            . . . f f e e 4 e e e f b b f . 
+            . . . . f 2 2 2 4 d d e b b f . 
+            . . . . e 2 2 2 e d d e b f . . 
+            . . . . f 4 4 4 f e e f f . . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . . f f f . . . . . . . 
+            `)
+    } else if (mario.vx < 0) {
+        mario.setImage(img`
+            . . . . . f f f f f f . . . . . 
+            . . . . f 2 f e e e e f f . . . 
+            . . . f 2 2 2 f e e e e f f . . 
+            . . . f e e e e f f e e e f . . 
+            . . f e 2 2 2 2 e e f f f f . . 
+            . . f 2 e f f f f 2 2 2 e f . . 
+            . . f f f e e e f f f f f f f . 
+            . . f e e 4 4 f b e 4 4 e f f . 
+            . . f f e d d f 1 4 d 4 e e f . 
+            . f d d f d d d d 4 e e e f . . 
+            . f b b f e e e 4 e e f f . . . 
+            . f b b e d d 4 2 2 2 f . . . . 
+            . . f b e d d e 2 2 2 e . . . . 
+            . . . f f e e f 4 4 4 f . . . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . . . f f f . . . . . . 
+            `)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Shroom, function (sprite, otherSprite2) {
+    if (sprite.y < otherSprite2.top) {
+        otherSprite2.vx = 0
+        animation.stopAnimation(animation.AnimationTypes.All, otherSprite2)
+        jump()
+        otherSprite2.setImage(assets.image`shroom_death`)
+        pause(450)
+        sprites.destroy(otherSprite2)
+        info.changeScoreBy(100)
+    } else {
+        deathMario()
+    }
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario.vy == 0) {
         jump()
-    }
-})
-scene.onHitWall(SpriteKind.Food, function (sprite2, location2) {
-    if (sprite2.isHittingTile(CollisionDirection.Right)) {
-        sprite2.vx = -50
-    } else if (sprite2.isHittingTile(CollisionDirection.Left)) {
-        sprite2.vx = 50
     }
 })
 function deathMario () {
@@ -72,221 +68,238 @@ function deathMario () {
     info.changeLifeBy(-1)
     info.setScore(0)
     info.changeCountdownBy(400 - info.countdown())
-    tiles.setCurrentTilemap(tilemap`level_1_0`)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    spawnEnemies()
+    tiles.setCurrentTilemap(tilemap`level_1_2`)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Shroom)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Turtle)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Shell)
     tiles.placeOnTile(mario, tiles.getTileLocation(0, 13))
+    spawnEnemies()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite4, otherSprite2) {
-    if (sprite4.y < otherSprite2.top) {
-        sprites.destroy(otherSprite2)
+function walkAnimation () {
+    if (mario.vx > 0) {
+        animation.runImageAnimation(
+        mario,
+        [img`
+            . . . . . . f f f f f f . . . . 
+            . . . . f f e e e e f 2 f . . . 
+            . . . f f e e e e f 2 2 2 f . . 
+            . . . f e e e f f e e e e f . . 
+            . . . f f f f e e 2 2 2 2 e f . 
+            . . . f e 2 2 2 f f f f e 2 f . 
+            . . f f f f f f f e e e f f f . 
+            . . f f e 4 4 e b f 4 4 e e f . 
+            . . f e e 4 d 4 1 f d d e f . . 
+            . . . f e e e 4 d d d d f . . . 
+            . . . . f f e e 4 4 4 e f . . . 
+            . . . . . 4 d d e 2 2 2 f . . . 
+            . . . . . e d d e 2 2 2 f . . . 
+            . . . . . f e e f 4 5 5 f . . . 
+            . . . . . . f f f f f f . . . . 
+            . . . . . . . f f f . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f f f . . . . 
+            . . . . f f e e e e f 2 f . . . 
+            . . . f f e e e e f 2 2 2 f . . 
+            . . . f e e e f f e e e e f . . 
+            . . . f f f f e e 2 2 2 2 e f . 
+            . . . f e 2 2 2 f f f f e 2 f . 
+            . . f f f f f f f e e e f f f . 
+            . . f f e 4 4 e b f 4 4 e e f . 
+            . . f e e 4 d 4 1 f d d e f . . 
+            . . . f e e e e e d d d f . . . 
+            . . . . . f 4 d d e 4 e f . . . 
+            . . . . . f e d d e 2 2 f . . . 
+            . . . . f f f e e f 5 5 f f . . 
+            . . . . f f f f f f f f f f . . 
+            . . . . . f f . . . f f f . . . 
+            `,img`
+            . . . . . . f f f f f f . . . . 
+            . . . . f f e e e e f 2 f . . . 
+            . . . f f e e e e f 2 2 2 f . . 
+            . . . f e e e f f e e e e f . . 
+            . . . f f f f e e 2 2 2 2 e f . 
+            . . . f e 2 2 2 f f f f e 2 f . 
+            . . f f f f f f f e e e f f f . 
+            . . f f e 4 4 e b f 4 4 e e f . 
+            . . f e e 4 d 4 1 f d d e f . . 
+            . . . f e e e 4 d d d d f . . . 
+            . . . . f f e e 4 4 4 e f . . . 
+            . . . . . 4 d d e 2 2 2 f . . . 
+            . . . . . e d d e 2 2 2 f . . . 
+            . . . . . f e e f 4 5 5 f . . . 
+            . . . . . . f f f f f f . . . . 
+            . . . . . . . f f f . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f f f . . . . 
+            . . . . f f e e e e f 2 f . . . 
+            . . . f f e e e e f 2 2 2 f . . 
+            . . . f e e e f f e e e e f . . 
+            . . . f f f f e e 2 2 2 2 e f . 
+            . . . f e 2 2 2 f f f f e 2 f . 
+            . . f f f f f f f e e e f f f . 
+            . . f f e 4 4 e b f 4 4 e e f . 
+            . . f e e 4 d 4 1 f d d e f . . 
+            . . . f e e e 4 d d d d f . . . 
+            . . . . 4 d d e 4 4 4 e f . . . 
+            . . . . e d d e 2 2 2 2 f . . . 
+            . . . . f e e f 4 4 5 5 f f . . 
+            . . . . f f f f f f f f f f . . 
+            . . . . . f f . . . f f f . . . 
+            `],
+        100,
+        false
+        )
+    } else if (mario.vx < 0) {
+        animation.runImageAnimation(
+        mario,
+        [img`
+            . . . . f f f f f f . . . . . . 
+            . . . f 2 f e e e e f f . . . . 
+            . . f 2 2 2 f e e e e f f . . . 
+            . . f e e e e f f e e e f . . . 
+            . f e 2 2 2 2 e e f f f f . . . 
+            . f 2 e f f f f 2 2 2 e f . . . 
+            . f f f e e e f f f f f f f . . 
+            . f e e 4 4 f b e 4 4 e f f . . 
+            . . f e d d f 1 4 d 4 e e f . . 
+            . . . f d d d d 4 e e e f . . . 
+            . . . f e 4 4 4 e e f f . . . . 
+            . . . f 2 2 2 e d d 4 . . . . . 
+            . . . f 2 2 2 e d d e . . . . . 
+            . . . f 5 5 4 f e e f . . . . . 
+            . . . . f f f f f f . . . . . . 
+            . . . . . . f f f . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . f f f f f f . . . . . . 
+            . . . f 2 f e e e e f f . . . . 
+            . . f 2 2 2 f e e e e f f . . . 
+            . . f e e e e f f e e e f . . . 
+            . f e 2 2 2 2 e e f f f f . . . 
+            . f 2 e f f f f 2 2 2 e f . . . 
+            . f f f e e e f f f f f f f . . 
+            . f e e 4 4 f b e 4 4 e f f . . 
+            . . f e d d f 1 4 d 4 e e f . . 
+            . . . f d d d e e e e e f . . . 
+            . . . f e 4 e d d 4 f . . . . . 
+            . . . f 2 2 e d d e f . . . . . 
+            . . f f 5 5 f e e f f f . . . . 
+            . . f f f f f f f f f f . . . . 
+            . . . f f f . . . f f . . . . . 
+            `,img`
+            . . . . f f f f f f . . . . . . 
+            . . . f 2 f e e e e f f . . . . 
+            . . f 2 2 2 f e e e e f f . . . 
+            . . f e e e e f f e e e f . . . 
+            . f e 2 2 2 2 e e f f f f . . . 
+            . f 2 e f f f f 2 2 2 e f . . . 
+            . f f f e e e f f f f f f f . . 
+            . f e e 4 4 f b e 4 4 e f f . . 
+            . . f e d d f 1 4 d 4 e e f . . 
+            . . . f d d d d 4 e e e f . . . 
+            . . . f e 4 4 4 e e f f . . . . 
+            . . . f 2 2 2 e d d 4 . . . . . 
+            . . . f 2 2 2 e d d e . . . . . 
+            . . . f 5 5 4 f e e f . . . . . 
+            . . . . f f f f f f . . . . . . 
+            . . . . . . f f f . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . f f f f f f . . . . . . 
+            . . . f 2 f e e e e f f . . . . 
+            . . f 2 2 2 f e e e e f f . . . 
+            . . f e e e e f f e e e f . . . 
+            . f e 2 2 2 2 e e f f f f . . . 
+            . f 2 e f f f f 2 2 2 e f . . . 
+            . f f f e e e f f f f f f f . . 
+            . f e e 4 4 f b e 4 4 e f f . . 
+            . . f e d d f 1 4 d 4 e e f . . 
+            . . . f d d d d 4 e e e f . . . 
+            . . . f e 4 4 4 e d d 4 . . . . 
+            . . . f 2 2 2 2 e d d e . . . . 
+            . . f f 5 5 4 4 f e e f . . . . 
+            . . f f f f f f f f f f . . . . 
+            . . . f f f . . . f f . . . . . 
+            `],
+        100,
+        false
+        )
+    }
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite, otherSprite22) {
+    if (sprite.y < otherSprite22.top) {
+        otherSprite22.vx = 0
+        animation.stopAnimation(animation.AnimationTypes.All, otherSprite22)
+        jump()
+        sprites.destroy(otherSprite22)
         info.changeScoreBy(100)
+        shell = sprites.create(assets.image`shell_sprite`, SpriteKind.Shell)
+        tiles.placeOnTile(shell, otherSprite22.tilemapLocation())
+        shell.ay = 350
     } else {
         deathMario()
     }
 })
-function walkAnimation () {
-    if (sprites.readDataString(mario, "state") == "small") {
-        if (mario.vx > 0) {
-            animation.runImageAnimation(
-            mario,
-            [img`
-                . . . . . . f f f f f f . . . . 
-                . . . . f f e e e e f 2 f . . . 
-                . . . f f e e e e f 2 2 2 f . . 
-                . . . f e e e f f e e e e f . . 
-                . . . f f f f e e 2 2 2 2 e f . 
-                . . . f e 2 2 2 f f f f e 2 f . 
-                . . f f f f f f f e e e f f f . 
-                . . f f e 4 4 e b f 4 4 e e f . 
-                . . f e e 4 d 4 1 f d d e f . . 
-                . . . f e e e 4 d d d d f . . . 
-                . . . . f f e e 4 4 4 e f . . . 
-                . . . . . 4 d d e 2 2 2 f . . . 
-                . . . . . e d d e 2 2 2 f . . . 
-                . . . . . f e e f 4 5 5 f . . . 
-                . . . . . . f f f f f f . . . . 
-                . . . . . . . f f f . . . . . . 
-                `,img`
-                . . . . . . . . . . . . . . . . 
-                . . . . . . f f f f f f . . . . 
-                . . . . f f e e e e f 2 f . . . 
-                . . . f f e e e e f 2 2 2 f . . 
-                . . . f e e e f f e e e e f . . 
-                . . . f f f f e e 2 2 2 2 e f . 
-                . . . f e 2 2 2 f f f f e 2 f . 
-                . . f f f f f f f e e e f f f . 
-                . . f f e 4 4 e b f 4 4 e e f . 
-                . . f e e 4 d 4 1 f d d e f . . 
-                . . . f e e e e e d d d f . . . 
-                . . . . . f 4 d d e 4 e f . . . 
-                . . . . . f e d d e 2 2 f . . . 
-                . . . . f f f e e f 5 5 f f . . 
-                . . . . f f f f f f f f f f . . 
-                . . . . . f f . . . f f f . . . 
-                `,img`
-                . . . . . . f f f f f f . . . . 
-                . . . . f f e e e e f 2 f . . . 
-                . . . f f e e e e f 2 2 2 f . . 
-                . . . f e e e f f e e e e f . . 
-                . . . f f f f e e 2 2 2 2 e f . 
-                . . . f e 2 2 2 f f f f e 2 f . 
-                . . f f f f f f f e e e f f f . 
-                . . f f e 4 4 e b f 4 4 e e f . 
-                . . f e e 4 d 4 1 f d d e f . . 
-                . . . f e e e 4 d d d d f . . . 
-                . . . . f f e e 4 4 4 e f . . . 
-                . . . . . 4 d d e 2 2 2 f . . . 
-                . . . . . e d d e 2 2 2 f . . . 
-                . . . . . f e e f 4 5 5 f . . . 
-                . . . . . . f f f f f f . . . . 
-                . . . . . . . f f f . . . . . . 
-                `,img`
-                . . . . . . . . . . . . . . . . 
-                . . . . . . f f f f f f . . . . 
-                . . . . f f e e e e f 2 f . . . 
-                . . . f f e e e e f 2 2 2 f . . 
-                . . . f e e e f f e e e e f . . 
-                . . . f f f f e e 2 2 2 2 e f . 
-                . . . f e 2 2 2 f f f f e 2 f . 
-                . . f f f f f f f e e e f f f . 
-                . . f f e 4 4 e b f 4 4 e e f . 
-                . . f e e 4 d 4 1 f d d e f . . 
-                . . . f e e e 4 d d d d f . . . 
-                . . . . 4 d d e 4 4 4 e f . . . 
-                . . . . e d d e 2 2 2 2 f . . . 
-                . . . . f e e f 4 4 5 5 f f . . 
-                . . . . f f f f f f f f f f . . 
-                . . . . . f f . . . f f f . . . 
-                `],
-            100,
-            false
-            )
-        } else if (mario.vx < 0) {
-            animation.runImageAnimation(
-            mario,
-            [img`
-                . . . . f f f f f f . . . . . . 
-                . . . f 2 f e e e e f f . . . . 
-                . . f 2 2 2 f e e e e f f . . . 
-                . . f e e e e f f e e e f . . . 
-                . f e 2 2 2 2 e e f f f f . . . 
-                . f 2 e f f f f 2 2 2 e f . . . 
-                . f f f e e e f f f f f f f . . 
-                . f e e 4 4 f b e 4 4 e f f . . 
-                . . f e d d f 1 4 d 4 e e f . . 
-                . . . f d d d d 4 e e e f . . . 
-                . . . f e 4 4 4 e e f f . . . . 
-                . . . f 2 2 2 e d d 4 . . . . . 
-                . . . f 2 2 2 e d d e . . . . . 
-                . . . f 5 5 4 f e e f . . . . . 
-                . . . . f f f f f f . . . . . . 
-                . . . . . . f f f . . . . . . . 
-                `,img`
-                . . . . . . . . . . . . . . . . 
-                . . . . f f f f f f . . . . . . 
-                . . . f 2 f e e e e f f . . . . 
-                . . f 2 2 2 f e e e e f f . . . 
-                . . f e e e e f f e e e f . . . 
-                . f e 2 2 2 2 e e f f f f . . . 
-                . f 2 e f f f f 2 2 2 e f . . . 
-                . f f f e e e f f f f f f f . . 
-                . f e e 4 4 f b e 4 4 e f f . . 
-                . . f e d d f 1 4 d 4 e e f . . 
-                . . . f d d d e e e e e f . . . 
-                . . . f e 4 e d d 4 f . . . . . 
-                . . . f 2 2 e d d e f . . . . . 
-                . . f f 5 5 f e e f f f . . . . 
-                . . f f f f f f f f f f . . . . 
-                . . . f f f . . . f f . . . . . 
-                `,img`
-                . . . . f f f f f f . . . . . . 
-                . . . f 2 f e e e e f f . . . . 
-                . . f 2 2 2 f e e e e f f . . . 
-                . . f e e e e f f e e e f . . . 
-                . f e 2 2 2 2 e e f f f f . . . 
-                . f 2 e f f f f 2 2 2 e f . . . 
-                . f f f e e e f f f f f f f . . 
-                . f e e 4 4 f b e 4 4 e f f . . 
-                . . f e d d f 1 4 d 4 e e f . . 
-                . . . f d d d d 4 e e e f . . . 
-                . . . f e 4 4 4 e e f f . . . . 
-                . . . f 2 2 2 e d d 4 . . . . . 
-                . . . f 2 2 2 e d d e . . . . . 
-                . . . f 5 5 4 f e e f . . . . . 
-                . . . . f f f f f f . . . . . . 
-                . . . . . . f f f . . . . . . . 
-                `,img`
-                . . . . . . . . . . . . . . . . 
-                . . . . f f f f f f . . . . . . 
-                . . . f 2 f e e e e f f . . . . 
-                . . f 2 2 2 f e e e e f f . . . 
-                . . f e e e e f f e e e f . . . 
-                . f e 2 2 2 2 e e f f f f . . . 
-                . f 2 e f f f f 2 2 2 e f . . . 
-                . f f f e e e f f f f f f f . . 
-                . f e e 4 4 f b e 4 4 e f f . . 
-                . . f e d d f 1 4 d 4 e e f . . 
-                . . . f d d d d 4 e e e f . . . 
-                . . . f e 4 4 4 e d d 4 . . . . 
-                . . . f 2 2 2 2 e d d e . . . . 
-                . . f f 5 5 4 4 f e e f . . . . 
-                . . f f f f f f f f f f . . . . 
-                . . . f f f . . . f f . . . . . 
-                `],
-            100,
-            false
-            )
-        }
-    }
-}
 function spawnEnemies () {
     for (let value of tiles.getTilesByType(assets.tile`myTile2`)) {
-        shroom = sprites.create(assets.image`shroom_sprite0`, SpriteKind.Enemy)
-        tiles.placeOnTile(shroom, value)
-        tiles.setTileAt(value, assets.tile`transparency16`)
-        shroom.vx = -20
-        animation.runImageAnimation(
-        shroom,
-        [img`
-            . . . . . . e e e e . . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . e e e e e e e e . . . . 
-            . . . e e e e e e e e e e . . . 
-            . . e f f e e e e e e f f e . . 
-            . e e e d f e e e e f d e e e . 
-            . e e e d f f f f f f d e e e . 
-            e e e e d f d e e d f d e e e e 
-            e e e e d d d e e d d d e e e e 
-            e e e e e e e e e e e e e e e e 
-            . e e e e d d d d d d e e e e . 
-            . . . . d d d d d d d d . . . . 
-            . . f f d d d d d d d d . . . . 
-            . f f f f d d d d d d f f . . . 
-            . f f f f f d d d d f f f . . . 
-            . . f f f f f . . f f f . . . . 
-            `,img`
-            . . . . . . e e e e . . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . e e e e e e e e . . . . 
-            . . . e e e e e e e e e e . . . 
-            . . e f f e e e e e e f f e . . 
-            . e e e d f e e e e f d e e e . 
-            . e e e d f f f f f f d e e e . 
-            e e e e d f d e e d f d e e e e 
-            e e e e d d d e e d d d e e e e 
-            e e e e e e e e e e e e e e e e 
-            . e e e e d d d d d d e e e e . 
-            . . . . d d d d d d d d . . . . 
-            . . . . d d d d d d d d f f . . 
-            . . . f f d d d d d d f f f f . 
-            . . . f f f d d d d f f f f f . 
-            . . . . f f f . . f f f f f . . 
-            `],
-        500,
-        true
-        )
-        shroom.setBounceOnWall(true)
+        if (mario.tilemapLocation().column + scene.screenWidth() > value.column) {
+            shroom = sprites.create(assets.image`shroom_sprite0`, SpriteKind.Shroom)
+            tiles.placeOnTile(shroom, value)
+            tiles.setTileAt(value, assets.tile`transparency16`)
+            shroom.vx = -20
+            animation.runImageAnimation(
+            shroom,
+            [img`
+                . . . . . . e e e e . . . . . . 
+                . . . . . e e e e e e . . . . . 
+                . . . . e e e e e e e e . . . . 
+                . . . e e e e e e e e e e . . . 
+                . . e f f e e e e e e f f e . . 
+                . e e e d f e e e e f d e e e . 
+                . e e e d f f f f f f d e e e . 
+                e e e e d f d e e d f d e e e e 
+                e e e e d d d e e d d d e e e e 
+                e e e e e e e e e e e e e e e e 
+                . e e e e d d d d d d e e e e . 
+                . . . . d d d d d d d d . . . . 
+                . . f f d d d d d d d d . . . . 
+                . f f f f d d d d d d f f . . . 
+                . f f f f f d d d d f f f . . . 
+                . . f f f f f . . f f f . . . . 
+                `,img`
+                . . . . . . e e e e . . . . . . 
+                . . . . . e e e e e e . . . . . 
+                . . . . e e e e e e e e . . . . 
+                . . . e e e e e e e e e e . . . 
+                . . e f f e e e e e e f f e . . 
+                . e e e d f e e e e f d e e e . 
+                . e e e d f f f f f f d e e e . 
+                e e e e d f d e e d f d e e e e 
+                e e e e d d d e e d d d e e e e 
+                e e e e e e e e e e e e e e e e 
+                . e e e e d d d d d d e e e e . 
+                . . . . d d d d d d d d . . . . 
+                . . . . d d d d d d d d f f . . 
+                . . . f f d d d d d d f f f f . 
+                . . . f f f d d d d f f f f f . 
+                . . . . f f f . . f f f f f . . 
+                `],
+            500,
+            true
+            )
+            shroom.ay = 160
+            shroom.setBounceOnWall(false)
+        }
+    }
+    for (let value2 of tiles.getTilesByType(assets.tile`myTile`)) {
+        if (mario.tilemapLocation().column + scene.screenWidth() > value2.column) {
+            turtle = sprites.create(assets.image`turtle_sprite`, SpriteKind.Turtle)
+            tiles.placeOnTile(turtle, value2)
+            tiles.setTileAt(value2, assets.tile`transparency16`)
+            turtle.vx = -20
+        }
     }
 }
 info.onLifeZero(function () {
@@ -294,22 +307,42 @@ info.onLifeZero(function () {
 })
 function jump () {
     jumpAnimation()
-    mario.vy = -190
+    mario.vy = -220
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite3, otherSprite) {
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Shell, function (sprite, otherSprite3) {
+    otherSprite3.vx = sprite.vx * 2
+    otherSprite3.setBounceOnWall(true)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
-    sprites.setDataString(mario, "state", "tall")
-    mario.setImage(assets.image`sprite_tall`)
+})
+scene.onHitWall(SpriteKind.Shroom, function (sprite, location) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.vx = -50
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
+        sprite.vx = 50
+    }
 })
 function createPlayer (player2: Sprite) {
     scene.cameraFollowSprite(player2)
     tiles.placeOnTile(player2, tiles.getTileLocation(0, 13))
     controller.moveSprite(player2, 100, 0)
-    sprites.setDataString(mario, "state", "small")
 }
-let shroom: Sprite = null
 let boost: Sprite = null
+let turtle: Sprite = null
+let shroom: Sprite = null
+let shell: Sprite = null
 let mario: Sprite = null
+scene.onHitWall(SpriteKind.Player, on_hit_wall)
+function on_hit_wall(sprite: Sprite, location2: tiles.Location) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.vx = -50
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
+        sprite.vx = 50
+    }
+    
+}
+scene.onHitWall(SpriteKind.Food, on_hit_wall)
 info.startCountdown(400)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -433,7 +466,7 @@ scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     `)
-tiles.setCurrentTilemap(tilemap`level_1_0`)
+tiles.setCurrentTilemap(tilemap`level_1_2`)
 mario = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . f f f f f f . . . . . 
@@ -456,7 +489,24 @@ createPlayer(mario)
 mario.ay = 350
 info.setLife(3)
 info.setScore(0)
-spawnEnemies()
+game.onUpdate(function () {
+    spawnEnemies()
+    for (let value22 of tiles.getTilesByType(assets.tile`prize_block`)) {
+        if (mario.tilemapLocation().column == value22.column && mario.tilemapLocation().row == value22.row + 1) {
+            info.changeScoreBy(10)
+            tiles.setTileAt(value22, assets.tile`myTile1`)
+        }
+    }
+    for (let value222 of tiles.getTilesByType(assets.tile`prize_block_boost`)) {
+        if (mario.tilemapLocation().column == value222.column && mario.tilemapLocation().row == value222.row + 1) {
+            boost = sprites.create(assets.image`boost_sprite`, SpriteKind.Food)
+            tiles.placeOnTile(boost, tiles.getTileLocation(value222.column, value222.row - 1))
+            boost.vx = 50
+            boost.ay = 160
+            tiles.setTileAt(value222, assets.tile`myTile1`)
+        }
+    }
+})
 game.onUpdate(function () {
     if (mario.vy == 0) {
         walkAnimation()
