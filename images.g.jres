@@ -1,9 +1,4 @@
 {
-    "image1": {
-        "data": "hwQQABEAAAAARERERERERA8AAABA3d3d3d3d3Q8AAABA/d3d3d3d3w8AAABA3d3d3d3d3Q8AAABA3U1E3d3d3Q8AAABA3URE393d3Q8AAABA3fT/393d3Q8AAABA3fTdTdRE3Q8AAABA3fTdRPRE3w8AAABA3URE9P/93w8AAABA3U1E9N3d3Q8AAABA3d3//93d3Q8AAABA3d3d3d3d3Q8AAABA/d3d3d3d3w8AAABA3d3d3d3d3Q8AAAAA/////////w8AAAA=",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "myImage"
-    },
     "image3": {
         "data": "hwQQABAAAAAAAADg7gAAAAAA4O7uDvAPAADu7u4O//8A4O/u7g7//wDu393t3v3/4O7+/+3d3f/u7u7f7d3d/e7u7u/u3d0N7u7u7+7d3Q3u7u7f7d3d/eDu/v/t3d3/AO7f3e3e/f8A4O/u7g7wDwAA7u7uDgAAAADg7u4OAAAAAADg7gAAAA==",
         "mimeType": "image/x-mkcd-f4",
@@ -18,6 +13,21 @@
         "data": "hwQQABAAAAAAAADg7gAAAAAA4O7uDgAAAADu7u4OAAAA4O/u7g7wDwDu393t3v3/4O7+/+3d3f/u7u7f7d3d/e7u7u/u3d0N7u7u7+7d3Q3u7u7f7d3d/eDu/v/t3d3/AO7f3e3e/f8A4O/u7g7wDwAA7u7uDgAAAADg7u4OAAAAAADg7gAAAA==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "shroom_sprite0"
+    },
+    "image5": {
+        "data": "hwQQABAAAAAAAABARAQAAAAAQEQiRAAAAABEJCIkAAAAIEQkQiQAAAAiQkREJBEBICJCREQUQRQkIkJERBQRQUQiREREFBERREREREQUERFEREQiQhQREUBEJCIiFBERAEQkIiIkEQEAQCQiIiQAAAAARCJCJAAAAABAREREAAAAAABARAQAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "boost_sprite"
+    },
+    "image6": {
+        "data": "hwQQACAAAAAAAAAAAADw//8PAAAAAAAAAAD////////v/v8AAAAAAAD//+7/7/7v7u7uAAD//wAA/+7u/y/yT0Tk7v///////+7u7v8v8k/U7e5E7v/////u7u7/L/JP1O3uRO7/////7u7/7i7y707k7t3d7v8A/+7u/+7+/78b4e7d3e7/AP/u/+4i8u/+/9/d7u7//wD//yLuIvLvTtTd3UQiVf///yIi7iLy707U3d3uIlX///8iIu4i8u9O1N3d7iJV//8A/yLuIuL+7+7+////////AAD//+4u8u/+DwAAAP//AAAAAAD/////DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "sprite_tall"
+    },
+    "image7": {
+        "data": "hwQQABcAAAAAAABAREQEAAAAAAAAQERER0REAAAAAAQQcXdBRAQAQAAAQAQRERERRABEREQARAQQERFBREREFBERRAQAREREREQREUcXQQQAQEREBAB3dHR3QQAAAAAAAHd3R3d3EQAAAAAAcHR3dHR3FAAAAAAAcEdHd0dHFwAAAAAAcHd0d3d0FwAAAAAAcEdHd0dHEQAAAAAAcHRxdHR3QQQAAAAAAHcRR3cXQQQAAAAAAHB3dHQXQAQAAAAAAAAAAAAQAAQ=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "turtle_sprite"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",
