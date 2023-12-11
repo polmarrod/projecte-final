@@ -8,14 +8,20 @@ def jumpAnimation():
     if tall:
         if mario.vx > 0:
             mario.set_image(assets.image("""
-                jump_right
+                tall_mario_jump_right
             """))
         elif mario.vx < 0:
             mario.set_image(assets.image("""
-                jump_left
+                tall_mario_jump_left
             """))
-    else:
-        pass
+    elif mario.vx > 0:
+        mario.set_image(assets.image("""
+            jump_right
+        """))
+    elif mario.vx < 0:
+        mario.set_image(assets.image("""
+            jump_left
+        """))
 
 def on_on_overlap(sprite, otherSprite2):
     if sprite.y < otherSprite2.top:
@@ -223,7 +229,7 @@ sprites.on_overlap(SpriteKind.player, SpriteKind.Shell, on_on_overlap3)
 def on_on_overlap4(sprite4, otherSprite):
     global tall
     sprites.destroy(otherSprite)
-    tall = 0
+    tall = 1
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap4)
 
 boost: Sprite = None
@@ -239,7 +245,7 @@ def on_hit_wall(sprite6: Sprite, location2: tiles.Location):
     elif sprite6.is_hitting_tile(CollisionDirection.LEFT):
         sprite6.vx = 50
 scene.on_hit_wall(SpriteKind.food, on_hit_wall)
-tall = 1
+tall = 0
 info.start_countdown(400)
 scene.set_background_image(img("""
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -366,9 +372,15 @@ scene.set_background_image(img("""
 tiles.set_current_tilemap(tilemap("""
     level_1_2
 """))
-mario = sprites.create(assets.image("""
-    mario_right
-"""), SpriteKind.player)
+if tall:
+    mario = sprites.create(assets.image("""
+            tall_mario_right0
+        """),
+        SpriteKind.player)
+else:
+    mario = sprites.create(assets.image("""
+        mario_right
+    """), SpriteKind.player)
 createPlayer(mario)
 mario.ay = 350
 info.set_life(3)

@@ -104,6 +104,16 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "tall_mario_left"
     },
+    "image22": {
+        "data": "hwQQACAAAAAAAAAAAAAA4O7e3QDg7u7uAAAAAODuAO7u3Q0N4O7uDgAAAODu7gDu3t3dDeDu7gAAACLe3e0O7t7d3SIuIiIAACAi3t3tLu7u3S0i4iIiAAAgIu7u3S3u7u4iIuIiIgAAIiLd7t0t7u4uIiIiLiIAACIi3d3dLeLuIiIiIi4CAAAiIu7d3u0iIiIiIiIAAAAAIiTt3e7t7iLSIiIiAAAAAEIk3e3uLeLuIiIiIgIAAADdLt3d7u0u4i4iIiICAADQ3S7e3e7t7i4tIuLuDgAA4N4u3t3e7u4AAADg7g4AANDe7u7d7u4AAAAA7u4OAADQ3e7u7gAAAAAA4O7uDgAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "tall_mario_jump_right"
+    },
+    "image23": {
+        "data": "hwQQACAAAADQ3e7u7gAAAAAA4O7uDgAA0N7u7t3u7gAAAADu7g4AAODeLt7d3u7uAAAA4O4OAADQ3S7e3e7t7i4tIuLuDgAAAN0u3d3u7S7iLiIiIgIAAABCJN3t7i3i7iIiIiICAAAAIiTt3e7t7iLSIiIiAAAAACIi7t3e7SIiIiIiIgAAAAAiIt3d3S3i7iIiIiIuAgAAIiLd7t0t7u4uIiIiLiIAACAi7u7dLe7u7iIi4iIiAAAgIt7d7S7u7t0tIuIiIgAAACLe3e0O7t7d3SIuIiIAAAAA4O7uAO7e3d0N4O7uAAAAAADg7gDu7t0NDeDu7g4AAAAAAAAA4O7e3QDg7u7u",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "tall_mario_jump_left"
+    },
     "anim3": {
         "namespace": "myAnimations",
         "id": "anim3",

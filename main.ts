@@ -7,12 +7,14 @@ function jumpAnimation () {
     animation.stopAnimation(animation.AnimationTypes.All, mario)
     if (tall) {
         if (mario.vx > 0) {
-            mario.setImage(assets.image`jump_right`)
+            mario.setImage(assets.image`tall_mario_jump_right`)
         } else if (mario.vx < 0) {
-            mario.setImage(assets.image`jump_left`)
+            mario.setImage(assets.image`tall_mario_jump_left`)
         }
-    } else {
-    	
+    } else if (mario.vx > 0) {
+        mario.setImage(assets.image`jump_right`)
+    } else if (mario.vx < 0) {
+        mario.setImage(assets.image`jump_left`)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Shroom, function (sprite, otherSprite2) {
@@ -198,7 +200,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Shell, function (sprite3, otherS
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite4, otherSprite) {
     sprites.destroy(otherSprite)
-    tall = 0
+    tall = 1
 })
 let boost: Sprite = null
 let turtle: Sprite = null
@@ -216,7 +218,7 @@ function on_hit_wall(sprite6: Sprite, location2: tiles.Location) {
     
 }
 scene.onHitWall(SpriteKind.Food, on_hit_wall)
-tall = 1
+tall = 0
 info.startCountdown(400)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -341,7 +343,11 @@ scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     `)
 tiles.setCurrentTilemap(tilemap`level_1_2`)
-mario = sprites.create(assets.image`mario_right`, SpriteKind.Player)
+if (tall) {
+    mario = sprites.create(assets.image`tall_mario_right0`, SpriteKind.Player)
+} else {
+    mario = sprites.create(assets.image`mario_right`, SpriteKind.Player)
+}
 createPlayer(mario)
 mario.ay = 350
 info.setLife(3)
