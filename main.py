@@ -64,6 +64,23 @@ def on_a_pressed():
         jump()
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
+def on_hit_wall2(sprite5, location):
+    if sprite5.is_hitting_tile(CollisionDirection.RIGHT):
+        sprite5.vx = -50
+    elif sprite5.is_hitting_tile(CollisionDirection.LEFT):
+        sprite5.vx = 50
+scene.on_hit_wall(SpriteKind.Shroom, on_hit_wall2)
+
+def on_left_pressed():
+    if mario.vy == 0:
+        animation.run_image_animation(mario,
+            assets.animation("""
+                mario_walk_left
+            """),
+            150,
+            True)
+controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
+
 def deathMario():
     info.stop_countdown()
     info.change_life_by(-1)
@@ -77,159 +94,20 @@ def deathMario():
     sprites.destroy_all_sprites_of_kind(SpriteKind.Shell)
     tiles.place_on_tile(mario, tiles.get_tile_location(0, 13))
     spawnEnemies()
-def walkAnimation():
-    if mario.vx > 0:
-        animation.run_image_animation(mario,
-            [img("""
-                    . . . . . . f f f f f f . . . . 
-                                . . . . f f e e e e f 2 f . . . 
-                                . . . f f e e e e f 2 2 2 f . . 
-                                . . . f e e e f f e e e e f . . 
-                                . . . f f f f e e 2 2 2 2 e f . 
-                                . . . f e 2 2 2 f f f f e 2 f . 
-                                . . f f f f f f f e e e f f f . 
-                                . . f f e 4 4 e b f 4 4 e e f . 
-                                . . f e e 4 d 4 1 f d d e f . . 
-                                . . . f e e e 4 d d d d f . . . 
-                                . . . . f f e e 4 4 4 e f . . . 
-                                . . . . . 4 d d e 2 2 2 f . . . 
-                                . . . . . e d d e 2 2 2 f . . . 
-                                . . . . . f e e f 4 5 5 f . . . 
-                                . . . . . . f f f f f f . . . . 
-                                . . . . . . . f f f . . . . . .
-                """),
-                img("""
-                    . . . . . . . . . . . . . . . . 
-                                . . . . . . f f f f f f . . . . 
-                                . . . . f f e e e e f 2 f . . . 
-                                . . . f f e e e e f 2 2 2 f . . 
-                                . . . f e e e f f e e e e f . . 
-                                . . . f f f f e e 2 2 2 2 e f . 
-                                . . . f e 2 2 2 f f f f e 2 f . 
-                                . . f f f f f f f e e e f f f . 
-                                . . f f e 4 4 e b f 4 4 e e f . 
-                                . . f e e 4 d 4 1 f d d e f . . 
-                                . . . f e e e e e d d d f . . . 
-                                . . . . . f 4 d d e 4 e f . . . 
-                                . . . . . f e d d e 2 2 f . . . 
-                                . . . . f f f e e f 5 5 f f . . 
-                                . . . . f f f f f f f f f f . . 
-                                . . . . . f f . . . f f f . . .
-                """),
-                img("""
-                    . . . . . . f f f f f f . . . . 
-                                . . . . f f e e e e f 2 f . . . 
-                                . . . f f e e e e f 2 2 2 f . . 
-                                . . . f e e e f f e e e e f . . 
-                                . . . f f f f e e 2 2 2 2 e f . 
-                                . . . f e 2 2 2 f f f f e 2 f . 
-                                . . f f f f f f f e e e f f f . 
-                                . . f f e 4 4 e b f 4 4 e e f . 
-                                . . f e e 4 d 4 1 f d d e f . . 
-                                . . . f e e e 4 d d d d f . . . 
-                                . . . . f f e e 4 4 4 e f . . . 
-                                . . . . . 4 d d e 2 2 2 f . . . 
-                                . . . . . e d d e 2 2 2 f . . . 
-                                . . . . . f e e f 4 5 5 f . . . 
-                                . . . . . . f f f f f f . . . . 
-                                . . . . . . . f f f . . . . . .
-                """),
-                img("""
-                    . . . . . . . . . . . . . . . . 
-                                . . . . . . f f f f f f . . . . 
-                                . . . . f f e e e e f 2 f . . . 
-                                . . . f f e e e e f 2 2 2 f . . 
-                                . . . f e e e f f e e e e f . . 
-                                . . . f f f f e e 2 2 2 2 e f . 
-                                . . . f e 2 2 2 f f f f e 2 f . 
-                                . . f f f f f f f e e e f f f . 
-                                . . f f e 4 4 e b f 4 4 e e f . 
-                                . . f e e 4 d 4 1 f d d e f . . 
-                                . . . f e e e 4 d d d d f . . . 
-                                . . . . 4 d d e 4 4 4 e f . . . 
-                                . . . . e d d e 2 2 2 2 f . . . 
-                                . . . . f e e f 4 4 5 5 f f . . 
-                                . . . . f f f f f f f f f f . . 
-                                . . . . . f f . . . f f f . . .
-                """)],
-            100,
-            False)
-    elif mario.vx < 0:
-        animation.run_image_animation(mario,
-            [img("""
-                    . . . . f f f f f f . . . . . . 
-                                . . . f 2 f e e e e f f . . . . 
-                                . . f 2 2 2 f e e e e f f . . . 
-                                . . f e e e e f f e e e f . . . 
-                                . f e 2 2 2 2 e e f f f f . . . 
-                                . f 2 e f f f f 2 2 2 e f . . . 
-                                . f f f e e e f f f f f f f . . 
-                                . f e e 4 4 f b e 4 4 e f f . . 
-                                . . f e d d f 1 4 d 4 e e f . . 
-                                . . . f d d d d 4 e e e f . . . 
-                                . . . f e 4 4 4 e e f f . . . . 
-                                . . . f 2 2 2 e d d 4 . . . . . 
-                                . . . f 2 2 2 e d d e . . . . . 
-                                . . . f 5 5 4 f e e f . . . . . 
-                                . . . . f f f f f f . . . . . . 
-                                . . . . . . f f f . . . . . . .
-                """),
-                img("""
-                    . . . . . . . . . . . . . . . . 
-                                . . . . f f f f f f . . . . . . 
-                                . . . f 2 f e e e e f f . . . . 
-                                . . f 2 2 2 f e e e e f f . . . 
-                                . . f e e e e f f e e e f . . . 
-                                . f e 2 2 2 2 e e f f f f . . . 
-                                . f 2 e f f f f 2 2 2 e f . . . 
-                                . f f f e e e f f f f f f f . . 
-                                . f e e 4 4 f b e 4 4 e f f . . 
-                                . . f e d d f 1 4 d 4 e e f . . 
-                                . . . f d d d e e e e e f . . . 
-                                . . . f e 4 e d d 4 f . . . . . 
-                                . . . f 2 2 e d d e f . . . . . 
-                                . . f f 5 5 f e e f f f . . . . 
-                                . . f f f f f f f f f f . . . . 
-                                . . . f f f . . . f f . . . . .
-                """),
-                img("""
-                    . . . . f f f f f f . . . . . . 
-                                . . . f 2 f e e e e f f . . . . 
-                                . . f 2 2 2 f e e e e f f . . . 
-                                . . f e e e e f f e e e f . . . 
-                                . f e 2 2 2 2 e e f f f f . . . 
-                                . f 2 e f f f f 2 2 2 e f . . . 
-                                . f f f e e e f f f f f f f . . 
-                                . f e e 4 4 f b e 4 4 e f f . . 
-                                . . f e d d f 1 4 d 4 e e f . . 
-                                . . . f d d d d 4 e e e f . . . 
-                                . . . f e 4 4 4 e e f f . . . . 
-                                . . . f 2 2 2 e d d 4 . . . . . 
-                                . . . f 2 2 2 e d d e . . . . . 
-                                . . . f 5 5 4 f e e f . . . . . 
-                                . . . . f f f f f f . . . . . . 
-                                . . . . . . f f f . . . . . . .
-                """),
-                img("""
-                    . . . . . . . . . . . . . . . . 
-                                . . . . f f f f f f . . . . . . 
-                                . . . f 2 f e e e e f f . . . . 
-                                . . f 2 2 2 f e e e e f f . . . 
-                                . . f e e e e f f e e e f . . . 
-                                . f e 2 2 2 2 e e f f f f . . . 
-                                . f 2 e f f f f 2 2 2 e f . . . 
-                                . f f f e e e f f f f f f f . . 
-                                . f e e 4 4 f b e 4 4 e f f . . 
-                                . . f e d d f 1 4 d 4 e e f . . 
-                                . . . f d d d d 4 e e e f . . . 
-                                . . . f e 4 4 4 e d d 4 . . . . 
-                                . . . f 2 2 2 2 e d d e . . . . 
-                                . . f f 5 5 4 4 f e e f . . . . 
-                                . . f f f f f f f f f f . . . . 
-                                . . . f f f . . . f f . . . . .
-                """)],
-            100,
-            False)
+
+def on_right_released():
+    animation.stop_animation(animation.AnimationTypes.ALL, mario)
+    mario.set_image(assets.image("""
+        mario_right
+    """))
+controller.right.on_event(ControllerButtonEvent.RELEASED, on_right_released)
+
+def on_left_released():
+    animation.stop_animation(animation.AnimationTypes.ALL, mario)
+    mario.set_image(assets.image("""
+        mario_left
+    """))
+controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
 
 def on_on_overlap2(sprite2, otherSprite22):
     global shell
@@ -247,6 +125,16 @@ def on_on_overlap2(sprite2, otherSprite22):
     else:
         deathMario()
 sprites.on_overlap(SpriteKind.player, SpriteKind.Turtle, on_on_overlap2)
+
+def on_right_pressed():
+    if mario.vy == 0:
+        animation.run_image_animation(mario,
+            assets.animation("""
+                mario_walk_right
+            """),
+            150,
+            True)
+controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
 def spawnEnemies():
     global shroom, turtle
@@ -323,6 +211,10 @@ info.on_life_zero(on_life_zero)
 def jump():
     jumpAnimation()
     mario.vy = -220
+def createPlayer(player2: Sprite):
+    scene.camera_follow_sprite(player2)
+    tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
+    controller.move_sprite(player2, 100, 0)
 
 def on_on_overlap3(sprite3, otherSprite3):
     otherSprite3.vx = sprite3.vx * 2
@@ -333,17 +225,6 @@ def on_on_overlap4(sprite4, otherSprite):
     sprites.destroy(otherSprite)
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap4)
 
-def on_hit_wall2(sprite5, location):
-    if sprite5.is_hitting_tile(CollisionDirection.RIGHT):
-        sprite5.vx = -50
-    elif sprite5.is_hitting_tile(CollisionDirection.LEFT):
-        sprite5.vx = 50
-scene.on_hit_wall(SpriteKind.Shroom, on_hit_wall2)
-
-def createPlayer(player2: Sprite):
-    scene.camera_follow_sprite(player2)
-    tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
-    controller.move_sprite(player2, 100, 0)
 boost: Sprite = None
 turtle: Sprite = None
 shroom: Sprite = None
@@ -482,25 +363,9 @@ scene.set_background_image(img("""
 tiles.set_current_tilemap(tilemap("""
     level_1_2
 """))
-mario = sprites.create(img("""
-        . . . . . . . . . . . . . . . . 
-            . . . . . f f f f f f . . . . . 
-            . . . f f e e e e f 2 f . . . . 
-            . . f f e e e e f 2 2 2 f . . . 
-            . . f e e e f f e e e e f . . . 
-            . . f f f f e e 2 2 2 2 e f . . 
-            . . f e 2 2 2 f f f f e 2 f . . 
-            . f f f f f f f e e e f f f . . 
-            . f f e 4 4 e b f 4 4 e e f . . 
-            . f e e 4 d 4 1 f d d e f . . . 
-            . . f e e e e e d d d f . . . . 
-            . . . . f 4 d d e 4 e f . . . . 
-            . . . . f e d d e 2 2 f . . . . 
-            . . . f f f e e f 5 5 f f . . . 
-            . . . f f f f f f f f f f . . . 
-            . . . . f f . . . f f f . . . .
-    """),
-    SpriteKind.player)
+mario = sprites.create(assets.image("""
+    mario_right
+"""), SpriteKind.player)
 createPlayer(mario)
 mario.ay = 350
 info.set_life(3)
@@ -532,8 +397,3 @@ def on_on_update():
                 myTile1
             """))
 game.on_update(on_on_update)
-
-def on_on_update2():
-    if mario.vy == 0:
-        walkAnimation()
-game.on_update(on_on_update2)
