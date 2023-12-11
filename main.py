@@ -5,14 +5,17 @@ class SpriteKind:
     Shell = SpriteKind.create()
 def jumpAnimation():
     animation.stop_animation(animation.AnimationTypes.ALL, mario)
-    if mario.vx > 0:
-        mario.set_image(assets.image("""
-            jump_right
-        """))
-    elif mario.vx < 0:
-        mario.set_image(assets.image("""
-            jump_left
-        """))
+    if tall:
+        if mario.vx > 0:
+            mario.set_image(assets.image("""
+                jump_right
+            """))
+        elif mario.vx < 0:
+            mario.set_image(assets.image("""
+                jump_left
+            """))
+    else:
+        pass
 
 def on_on_overlap(sprite, otherSprite2):
     if sprite.y < otherSprite2.top:
@@ -43,12 +46,20 @@ scene.on_hit_wall(SpriteKind.Shroom, on_hit_wall2)
 
 def on_left_pressed():
     if mario.vy == 0:
-        animation.run_image_animation(mario,
-            assets.animation("""
-                mario_walk_left
-            """),
-            150,
-            True)
+        if tall:
+            animation.run_image_animation(mario,
+                assets.animation("""
+                    tall_mario_walk_left
+                """),
+                150,
+                True)
+        else:
+            animation.run_image_animation(mario,
+                assets.animation("""
+                    mario_walk_left
+                """),
+                150,
+                True)
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def deathMario():
@@ -67,16 +78,26 @@ def deathMario():
 
 def on_right_released():
     animation.stop_animation(animation.AnimationTypes.ALL, mario)
-    mario.set_image(assets.image("""
-        mario_right
-    """))
+    if tall:
+        mario.set_image(assets.image("""
+            tall_mario_right0
+        """))
+    else:
+        mario.set_image(assets.image("""
+            mario_right
+        """))
 controller.right.on_event(ControllerButtonEvent.RELEASED, on_right_released)
 
 def on_left_released():
     animation.stop_animation(animation.AnimationTypes.ALL, mario)
-    mario.set_image(assets.image("""
-        mario_left
-    """))
+    if tall:
+        mario.set_image(assets.image("""
+            tall_mario_left
+        """))
+    else:
+        mario.set_image(assets.image("""
+            mario_left
+        """))
 controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
 
 def on_on_overlap2(sprite2, otherSprite22):
@@ -98,12 +119,20 @@ sprites.on_overlap(SpriteKind.player, SpriteKind.Turtle, on_on_overlap2)
 
 def on_right_pressed():
     if mario.vy == 0:
-        animation.run_image_animation(mario,
-            assets.animation("""
-                mario_walk_right
-            """),
-            150,
-            True)
+        if tall:
+            animation.run_image_animation(mario,
+                assets.animation("""
+                    tall_mario_walk_right
+                """),
+                150,
+                True)
+        else:
+            animation.run_image_animation(mario,
+                assets.animation("""
+                    mario_walk_right
+                """),
+                150,
+                True)
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
 def spawnEnemies():
@@ -192,7 +221,9 @@ def on_on_overlap3(sprite3, otherSprite3):
 sprites.on_overlap(SpriteKind.player, SpriteKind.Shell, on_on_overlap3)
 
 def on_on_overlap4(sprite4, otherSprite):
+    global tall
     sprites.destroy(otherSprite)
+    tall = 0
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap4)
 
 boost: Sprite = None
@@ -200,6 +231,7 @@ turtle: Sprite = None
 shroom: Sprite = None
 shell: Sprite = None
 mario: Sprite = None
+tall = 0
 scene.on_hit_wall(SpriteKind.player, on_hit_wall)
 def on_hit_wall(sprite6: Sprite, location2: tiles.Location):
     if sprite6.is_hitting_tile(CollisionDirection.RIGHT):
@@ -207,6 +239,7 @@ def on_hit_wall(sprite6: Sprite, location2: tiles.Location):
     elif sprite6.is_hitting_tile(CollisionDirection.LEFT):
         sprite6.vx = 50
 scene.on_hit_wall(SpriteKind.food, on_hit_wall)
+tall = 1
 info.start_countdown(400)
 scene.set_background_image(img("""
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
