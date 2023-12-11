@@ -1,4 +1,4 @@
-// Código generado automáticamente. No editar.
+// Auto-generated code. Do not edit.
 namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
@@ -415,6 +415,32 @@ e e e e e e e e e e e e e e e e
 . . . d d d d d d d d d d . . . 
 . . . d d d d d d d d d d . . . 
 `;
+            case "image11":
+            case "coin one":return img`
+. 4 4 4 . . 
+4 4 4 4 4 f 
+4 4 4 4 4 f 
+4 4 4 4 4 f 
+4 4 4 4 4 f 
+4 4 4 4 4 f 
+4 4 4 4 4 f 
+4 4 4 4 4 f 
+f 4 4 4 f e 
+. f f f e . 
+`;
+            case "image12":
+            case "coin two":return img`
+. e e e . . 
+e e e e e f 
+e e e e e f 
+e e e e e f 
+e e e e e f 
+e e e e e f 
+e e e e e f 
+e e e e e f 
+f e e e f e 
+. f f f . . 
+`;
         }
         return null;
     })
@@ -435,4 +461,4 @@ e e e e e e e e e e e e e e e e
     })
 
 }
-// Código generado automáticamente. No editar.
+// Auto-generated code. Do not edit.

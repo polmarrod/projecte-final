@@ -49,6 +49,16 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "selector"
     },
+    "image11": {
+        "data": "hwQGAAoAAABAREREDwAAAERERET0AAAARERERPQAAABERERE9AAAAEBERETvAAAA8P///w4AAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "coin one"
+    },
+    "image12": {
+        "data": "hwQGAAoAAADg7u7uDwAAAO7u7u7+AAAA7u7u7v4AAADu7u7u/gAAAODu7u4PAAAA8P///w4AAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "coin two"
+    },
     "song1": {
         "data": "00780004080200",
         "mimeType": "application/mkcd-song",
