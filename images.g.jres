@@ -64,6 +64,31 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "mario_left"
     },
+    "image11": {
+        "data": "hwQQABAAAAAA3Q0AAAAAAADdDQDg7g4A0N3tAOLu7gDQ7e7u4u7uACDu7u4i7u4AIt3u3SIiIgAi7u3e7dIiACLd3d7tLiIAIt3d3u0uIgAi7u3e7dIiACLd7t0iIiIA0O7u7uLu7gDQ7e4A4u7uAADdDQDg7g4AAN0NAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "mario_death"
+    },
+    "image13": {
+        "data": "hwQQABAAAAAAAAAAAN0AAAAAAADg3Q3uAAAAAO7e7e4AAAAA7t7uDgAA7g7uLuIiAOLdDu4uIiIg4u7d7u4iIiDi7d3iLiIiINLd3S4iIiIg0t3d7tIiAiDi3t7uIiICINLt3uIiIgIA0t3eLtIiAN3i3u4uIiIA3e3e7gDg7gDd7e4O4O7uAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "jump_right"
+    },
+    "image16": {
+        "data": "hwQQABAAAADd7e4O4O7uAN3t3u4A4O4A3eLe7i4iIgAA0t3eLtIiACDS7d7iIiICIOLe3u4iIgIg0t3d7tIiAiDS3d0uIiIiIOLt3eIuIiIg4u7d7u4iIgDi3Q7uLiIiAADuDu4u4iIAAAAA7t7uDgAAAADu3u3uAAAAAODdDe4AAAAAAN0AAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "jump_left"
+    },
+    "image17": {
+        "data": "hwQQACAAAAAAAAAAAAAAAODu3QAAAADuAAAA4O4AAODu7t3dICIA7gAA4O7uAADu7u7d3SIi7u4AIt7d7Q7g7u7u3S0iIu7uICLe3d0u7u4iIiIiIiLu7iAi7u7d3SIiItIiIiIi7u4iIt3u3d3t7u4iIiIiAAAAIiLd3d3d7e7uIiIiAgAAACIi7t3e3e3u7iIiIgIAAAAiJO3d7t3t7u4iIiIiAAAAQiTd7e7tIiIi0iIiIiLu7gAg3d3uDe7uIiIiIiIi7u4AINDd7g3g7u7u3S0iIu7uACDQ3e4AAO7u7t3dIiLu7gAAAN0AAADg7u7d3SAiAO4AAAAAAAAAAODu3QAAAADu",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "tall_mario_right0"
+    },
+    "image18": {
+        "data": "hwQQACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4A4AAO4OAAAAAAAAAAAA4O7uAO4uIgAAAAAAAAAAIt7d7eAiIiIAAAAAAAAAICLe3d0uAAAAAAAAAAAAACAi7u7dLQAAAAAAAAAAAAAiIt3u3S0AAAAAAAAAAAAAIiLd3d3dAgAAAAAAAAAAACIi7t3e3S4AAAAAAAAAAAAiJO3d7t3gAgAAAAAAAAAAQiTd7e4NAAIAAAAAAAAAAAAg3d3uDQANAAAAAAAAAAAAINDd7g0ADQAAAAAAAAAAACDQ3e4AANAAAAAAAAAAAAAAAN0AAADQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "tall_mario_right1"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
