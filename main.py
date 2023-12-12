@@ -3,35 +3,43 @@ class SpriteKind:
     Shroom = SpriteKind.create()
     Turtle = SpriteKind.create()
     Shell = SpriteKind.create()
+    Coin = SpriteKind.create()
+
+def on_hit_wall2(sprite, location):
+    if sprite.tile_kind_at(TileDirection.BOTTOM, assets.tile("""
+        myTile1
+    """)):
+        sprites.destroy(sprite)
+scene.on_hit_wall(SpriteKind.Coin, on_hit_wall2)
+
 def jumpAnimation():
     animation.stop_animation(animation.AnimationTypes.ALL, mario)
     if tall:
-        if mario.vx > 0:
+        if facingRight:
             mario.set_image(assets.image("""
                 tall_mario_jump_right
             """))
-        elif mario.vx < 0:
+        else:
             mario.set_image(assets.image("""
                 tall_mario_jump_left
             """))
-    elif mario.vx > 0:
+    elif facingRight:
         mario.set_image(assets.image("""
             jump_right
         """))
-    elif mario.vx < 0:
+    else:
         mario.set_image(assets.image("""
             jump_left
         """))
 
-def on_on_overlap(sprite, otherSprite2):
-    if sprite.y < otherSprite2.top:
+def on_on_overlap(sprite2, otherSprite2):
+    if sprite2.y < otherSprite2.top:
         otherSprite2.vx = 0
         animation.stop_animation(animation.AnimationTypes.ALL, otherSprite2)
         jump()
         otherSprite2.set_image(assets.image("""
             shroom_death
         """))
-        pause(450)
         sprites.destroy(otherSprite2)
         info.change_score_by(100)
     else:
@@ -43,14 +51,16 @@ def on_a_pressed():
         jump()
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
-def on_hit_wall2(sprite5, location):
+def on_hit_wall3(sprite5, location2):
     if sprite5.is_hitting_tile(CollisionDirection.RIGHT):
         sprite5.vx = -50
     elif sprite5.is_hitting_tile(CollisionDirection.LEFT):
         sprite5.vx = 50
-scene.on_hit_wall(SpriteKind.Shroom, on_hit_wall2)
+scene.on_hit_wall(SpriteKind.Shroom, on_hit_wall3)
 
 def on_left_pressed():
+    global facingRight
+    facingRight = 0
     if mario.vy == 0:
         if tall:
             animation.run_image_animation(mario,
@@ -106,9 +116,9 @@ def on_left_released():
         """))
 controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
 
-def on_on_overlap2(sprite2, otherSprite22):
+def on_on_overlap2(sprite22, otherSprite22):
     global shell
-    if sprite2.y < otherSprite22.top:
+    if sprite22.y < otherSprite22.top:
         otherSprite22.vx = 0
         animation.stop_animation(animation.AnimationTypes.ALL, otherSprite22)
         jump()
@@ -123,7 +133,34 @@ def on_on_overlap2(sprite2, otherSprite22):
         deathMario()
 sprites.on_overlap(SpriteKind.player, SpriteKind.Turtle, on_on_overlap2)
 
+def checkFall():
+    if mario.tilemap_location().row == 15:
+        deathMario()
+    for value in sprites.all_of_kind(SpriteKind.Shroom):
+        if value.tilemap_location().row == 15:
+            sprites.destroy(value)
+    for value2 in sprites.all_of_kind(SpriteKind.Turtle):
+        if value2.tilemap_location().row == 15:
+            sprites.destroy(value2)
+    for value3 in sprites.all_of_kind(SpriteKind.food):
+        if value3.tilemap_location().row == 15:
+            sprites.destroy(value3)
+    for value4 in sprites.all_of_kind(SpriteKind.Shell):
+        if value4.tilemap_location().row == 15:
+            sprites.destroy(value4)
+
+def on_on_overlap3(sprite32, otherSprite3):
+    if otherSprite3.vx == 0:
+        otherSprite3.vx = sprite32.vx * 2
+        otherSprite3.set_bounce_on_wall(True)
+    else:
+        sprites.destroy(otherSprite3)
+        deathMario()
+sprites.on_overlap(SpriteKind.player, SpriteKind.Shell, on_on_overlap3)
+
 def on_right_pressed():
+    global facingRight
+    facingRight = 1
     if mario.vy == 0:
         if tall:
             animation.run_image_animation(mario,
@@ -143,15 +180,15 @@ controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
 def spawnEnemies():
     global shroom, turtle
-    for value in tiles.get_tiles_by_type(assets.tile("""
+    for value22 in tiles.get_tiles_by_type(assets.tile("""
         myTile2
     """)):
-        if mario.tilemap_location().column + scene.screen_width() > value.column:
+        if mario.tilemap_location().column + scene.screen_width() > value22.column:
             shroom = sprites.create(assets.image("""
                 shroom_sprite0
             """), SpriteKind.Shroom)
-            tiles.place_on_tile(shroom, value)
-            tiles.set_tile_at(value, assets.tile("""
+            tiles.place_on_tile(shroom, value22)
+            tiles.set_tile_at(value22, assets.tile("""
                 transparency16
             """))
             shroom.vx = -20
@@ -196,15 +233,15 @@ def spawnEnemies():
                 True)
             shroom.ay = 160
             shroom.set_bounce_on_wall(False)
-    for value2 in tiles.get_tiles_by_type(assets.tile("""
+    for value222 in tiles.get_tiles_by_type(assets.tile("""
         myTile
     """)):
-        if mario.tilemap_location().column + scene.screen_width() > value2.column:
+        if mario.tilemap_location().column + scene.screen_width() > value222.column:
             turtle = sprites.create(assets.image("""
                 turtle_sprite
             """), SpriteKind.Turtle)
-            tiles.place_on_tile(turtle, value2)
-            tiles.set_tile_at(value2, assets.tile("""
+            tiles.place_on_tile(turtle, value222)
+            tiles.set_tile_at(value222, assets.tile("""
                 transparency16
             """))
             turtle.vx = -20
@@ -221,11 +258,6 @@ def createPlayer(player2: Sprite):
     tiles.place_on_tile(player2, tiles.get_tile_location(0, 13))
     controller.move_sprite(player2, 100, 0)
 
-def on_on_overlap3(sprite3, otherSprite3):
-    otherSprite3.vx = sprite3.vx * 2
-    otherSprite3.set_bounce_on_wall(True)
-sprites.on_overlap(SpriteKind.player, SpriteKind.Shell, on_on_overlap3)
-
 def on_on_overlap4(sprite4, otherSprite):
     global tall
     sprites.destroy(otherSprite)
@@ -233,19 +265,22 @@ def on_on_overlap4(sprite4, otherSprite):
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap4)
 
 boost: Sprite = None
+coin: Sprite = None
 turtle: Sprite = None
 shroom: Sprite = None
 shell: Sprite = None
 mario: Sprite = None
+facingRight = 0
 tall = 0
+tall = 0
+facingRight = 1
 scene.on_hit_wall(SpriteKind.player, on_hit_wall)
-def on_hit_wall(sprite6: Sprite, location2: tiles.Location):
+def on_hit_wall(sprite6: Sprite, location22: tiles.Location):
     if sprite6.is_hitting_tile(CollisionDirection.RIGHT):
         sprite6.vx = -50
     elif sprite6.is_hitting_tile(CollisionDirection.LEFT):
         sprite6.vx = 50
 scene.on_hit_wall(SpriteKind.food, on_hit_wall)
-tall = 0
 info.start_countdown(400)
 scene.set_background_image(img("""
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -387,28 +422,56 @@ info.set_life(3)
 info.set_score(0)
 
 def on_on_update():
-    global boost
+    global coin, boost
     spawnEnemies()
-    for value22 in tiles.get_tiles_by_type(assets.tile("""
+    for value2222 in tiles.get_tiles_by_type(assets.tile("""
         prize_block
     """)):
-        if mario.tilemap_location().column == value22.column and mario.tilemap_location().row == value22.row + 1:
+        if mario.tilemap_location().column == value2222.column and mario.tilemap_location().row == value2222.row + 1:
+            coin = sprites.create(assets.image("""
+                coin_sprite
+            """), SpriteKind.Coin)
+            tiles.place_on_tile(coin, value2222)
+            coin.vy = -200
+            coin.ay = 400
             info.change_score_by(10)
-            tiles.set_tile_at(value22, assets.tile("""
+            tiles.set_tile_at(value2222, assets.tile("""
                 myTile1
             """))
-    for value222 in tiles.get_tiles_by_type(assets.tile("""
+    for value22222 in tiles.get_tiles_by_type(assets.tile("""
         prize_block_boost
     """)):
-        if mario.tilemap_location().column == value222.column and mario.tilemap_location().row == value222.row + 1:
+        if mario.tilemap_location().column == value22222.column and mario.tilemap_location().row == value22222.row + 1:
             boost = sprites.create(assets.image("""
                 boost_sprite
             """), SpriteKind.food)
             tiles.place_on_tile(boost,
-                tiles.get_tile_location(value222.column, value222.row - 1))
+                tiles.get_tile_location(value22222.column, value22222.row - 1))
             boost.vx = 50
             boost.ay = 160
-            tiles.set_tile_at(value222, assets.tile("""
+            tiles.set_tile_at(value22222, assets.tile("""
                 myTile1
             """))
 game.on_update(on_on_update)
+
+def on_on_update2():
+    checkFall()
+    if mario.vx == 0 and mario.vy == 0:
+        if tall:
+            if facingRight:
+                mario.set_image(assets.image("""
+                    tall_mario_right0
+                """))
+            else:
+                mario.set_image(assets.image("""
+                    tall_mario_left
+                """))
+        elif facingRight:
+            mario.set_image(assets.image("""
+                mario_right
+            """))
+        else:
+            mario.set_image(assets.image("""
+                mario_left
+            """))
+game.on_update(on_on_update2)
